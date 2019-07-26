@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal static class Util
+    public static class Util
     {
         // Class Methods
         public static Point ScreenCursorPosition

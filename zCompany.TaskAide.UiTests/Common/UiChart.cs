@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal class UiChart : UiElement
+    public class UiChart : UiElement
     {
         // Class Fields
         public static string ClassName = "IntervalChart";

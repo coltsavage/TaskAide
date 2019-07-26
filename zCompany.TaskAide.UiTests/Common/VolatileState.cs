@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal class VolatileState<T>
+    public class VolatileState<T>
     {
         // Fields
         private bool isValid;

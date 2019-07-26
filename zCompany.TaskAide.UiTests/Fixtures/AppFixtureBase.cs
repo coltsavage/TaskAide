@@ -1,4 +1,5 @@
 ﻿using System;
+using zCompany.UiAutomation;
 
 namespace zCompany.TaskAide.UiTests
 {

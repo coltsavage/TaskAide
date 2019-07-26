@@ -3,6 +3,7 @@ using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Remote;
 using System;
+using zCompany.UiAutomation;
 
 namespace zCompany.TaskAide.UiTests
 {

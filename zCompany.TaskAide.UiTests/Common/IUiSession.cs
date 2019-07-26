@@ -1,9 +1,9 @@
 ﻿using OpenQA.Selenium;
 using System;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal interface IUiSession : IDisposable
+    public interface IUiSession : IDisposable
     {
         // Properties
         IUiElement Find(By by);

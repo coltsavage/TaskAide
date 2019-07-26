@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Threading;
+using zCompany.UiAutomation;
 
 namespace zCompany.TaskAide.UiTests
 {

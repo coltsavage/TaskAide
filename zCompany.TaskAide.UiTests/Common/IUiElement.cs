@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using OpenQA.Selenium;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal interface IUiElement : IDisposable
+    public interface IUiElement : IDisposable
     {
         // Properties
         int Height { get; }

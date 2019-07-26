@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal class UiElement : IUiElement
+    public class UiElement : IUiElement
     {
         // Fields
         private VolatileState<int> height;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal class VolatileList<T> : List<T>
+    public class VolatileList<T> : List<T>
     {
         // Fields
         private bool isValid;

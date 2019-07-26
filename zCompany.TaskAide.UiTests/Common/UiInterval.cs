@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal class UiInterval : UiElement
+    public class UiInterval : UiElement
     {
         // Class Fields
         public static string ClassName = "Interval";

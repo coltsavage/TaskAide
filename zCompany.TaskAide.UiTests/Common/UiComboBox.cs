@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace zCompany.TaskAide.UiTests
+namespace zCompany.UiAutomation
 {
-    internal class UiComboBox : UiElement
+    public class UiComboBox : UiElement
     {
         // Class Fields
         public static string ClassName = "ComboBox";
