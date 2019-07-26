@@ -6,7 +6,7 @@ using System;
 
 namespace zCompany.TaskAide.UiTests
 {
-    internal class UiSession : IDisposable
+    internal class UiSession : IUiSession
     {
         // Constructors
         public UiSession()
@@ -29,16 +29,16 @@ namespace zCompany.TaskAide.UiTests
         public WindowsDriver<WindowsElement> Driver { get; private set; }
 
         // Methods
-        public UiElement Find(By by)
+        public IUiElement Find(By by)
         {
             var element = this.Driver.FindElement(by);
-            return new UiElement((AppiumWebElement)element, this);
+            return new AppiumUiElement((AppiumWebElement)element, this);
         }
 
-        public UiElement Find(string automationId)
+        public IUiElement Find(string automationId)
         {
             var element = this.Driver.FindElementByAccessibilityId(automationId);
-            return new UiElement((AppiumWebElement)element, this);
+            return new AppiumUiElement((AppiumWebElement)element, this);
         }
     }
 }

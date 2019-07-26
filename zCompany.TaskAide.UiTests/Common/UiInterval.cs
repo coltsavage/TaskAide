@@ -12,7 +12,7 @@ namespace zCompany.TaskAide.UiTests
         private VolatileState<TimeSpan> span;
 
         // Constructors
-        public UiInterval(UiElement element, UiChart chart)
+        public UiInterval(IUiElement element, UiChart chart)
             : base(element)
         {
             this.Chart = chart;

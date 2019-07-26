@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +14,12 @@ namespace zCompany.TaskAide.UiTests
         private VolatileList<UiElement> listItems;
 
         // Constructors
-        public UiComboBox(UiElement element)
+        public UiComboBox(IUiElement element)
             :base(element)
         {
             this.listItems = new VolatileList<UiElement>(
                 this.GetListItems,
-                (item) => item);
+                (item) => new UiElement(item));
         }
         
         // Destructors
@@ -61,7 +60,7 @@ namespace zCompany.TaskAide.UiTests
             return list;
         }
 
-        private IReadOnlyCollection<UiElement> GetListItems()
+        private IReadOnlyCollection<IUiElement> GetListItems()
         {
             base.Click();
             return base.FindAll(By.ClassName("ComboBoxItem"));

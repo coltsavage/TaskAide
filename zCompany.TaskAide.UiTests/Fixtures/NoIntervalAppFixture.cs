@@ -2,18 +2,19 @@
 
 namespace zCompany.TaskAide.UiTests
 {
-    public class NoIntervalAppFixture : IDisposable
+    public class NoIntervalAppFixture : AppFixtureBase
     {
         // Constructors
         public NoIntervalAppFixture()
         {
-            this.App = new UiApp();
+            this.App = new UiApp(base.UiSession);
         }
 
         // Destructors
-        public void Dispose()
+        public override void Dispose()
         {
             this.App.Dispose();
+            base.Dispose();
         }
 
         // Properties

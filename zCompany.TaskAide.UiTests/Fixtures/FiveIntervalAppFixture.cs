@@ -3,20 +3,21 @@ using System.Linq;
 
 namespace zCompany.TaskAide.UiTests
 {
-    public class FiveIntervalAppFixture : IDisposable
+    public class FiveIntervalAppFixture : AppFixtureBase
     {
         // Constructors
         public FiveIntervalAppFixture()
         {
-            this.App = new UiApp();
+            this.App = new UiApp(base.UiSession);
 
             this.MakeIntervals(5);
         }
 
         // Destructors
-        public void Dispose()
+        public override void Dispose()
         {
             this.App.Dispose();
+            base.Dispose();
         }
 
         // Properties

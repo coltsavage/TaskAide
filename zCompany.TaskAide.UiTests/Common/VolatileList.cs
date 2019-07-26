@@ -9,7 +9,7 @@ namespace zCompany.TaskAide.UiTests
         private bool isValid;
 
         // Constructors
-        public VolatileList(Func<IReadOnlyCollection<UiElement>> listRetrieval, Func<UiElement, T> itemInstantiation)
+        public VolatileList(Func<IReadOnlyCollection<IUiElement>> listRetrieval, Func<IUiElement, T> itemInstantiation)
             :base()
         {
             this.RetrieveList = listRetrieval;
@@ -19,8 +19,8 @@ namespace zCompany.TaskAide.UiTests
         }
 
         // Delegates
-        private Func<UiElement, T> InstantiateItem;
-        private Func<IReadOnlyCollection<UiElement>> RetrieveList;
+        private Func<IUiElement, T> InstantiateItem;
+        private Func<IReadOnlyCollection<IUiElement>> RetrieveList;
 
         // Properties
         public IReadOnlyCollection<T> Value

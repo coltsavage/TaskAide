@@ -119,16 +119,20 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\IUiElement.cs" />
+    <Compile Include="Common\IUiSession.cs" />
     <Compile Include="Common\UiApp.cs" />
     <Compile Include="Common\UiChart.cs" />
     <Compile Include="Common\UiComboBox.cs" />
     <Compile Include="Common\UiElement.cs" />
+    <Compile Include="Common\AppiumUiElement.cs" />
     <Compile Include="Common\UiInterval.cs" />
     <Compile Include="Common\UiSession.cs" />
     <Compile Include="Common\Util.cs" />
     <Compile Include="Common\VolatileList.cs" />
     <Compile Include="Common\VolatileState.cs" />
     <Compile Include="Fixtures\FiveIntervalAppFixture.cs" />
+    <Compile Include="Fixtures\AppFixtureBase.cs" />
     <Compile Include="Fixtures\NoIntervalAppFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BasicOperationTests.cs" />

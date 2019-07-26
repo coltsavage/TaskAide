@@ -9,12 +9,12 @@ namespace zCompany.TaskAide.UiTests
         // Fields
         private VolatileState<UiChart> chart;
         private VolatileState<UiComboBox> taskSelector;
-        private UiSession ui;
+        private IUiSession ui;
 
         // Constructors
-        public UiApp()
+        public UiApp(IUiSession uiSession)
         {
-            this.ui = new UiSession();
+            this.ui = uiSession;
 
             this.chart = new VolatileState<UiChart>(
                 () => new UiChart(this.ui.Find(By.ClassName(UiChart.ClassName))));

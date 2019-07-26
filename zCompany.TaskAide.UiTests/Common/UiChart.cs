@@ -14,7 +14,7 @@ namespace zCompany.TaskAide.UiTests
         private VolatileState<UiElement> originLabel;
 
         // Constructors
-        public UiChart(UiElement element)
+        public UiChart(IUiElement element)
             :base(element)
         {
             this.intervals = new VolatileList<UiInterval>(
@@ -22,7 +22,7 @@ namespace zCompany.TaskAide.UiTests
                 (item) => new UiInterval(item, this));
 
             this.originLabel = new VolatileState<UiElement>(
-                () => base.Find(By.ClassName("TimeAxis")).Find("MajorTick#0"));
+                () => new UiElement(base.Find(By.ClassName("TimeAxis")).Find("MajorTick#0")));
         }
 
         // Destructors

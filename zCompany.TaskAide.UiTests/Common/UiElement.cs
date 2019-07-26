@@ -1,34 +1,30 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Appium;
-using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
 
 namespace zCompany.TaskAide.UiTests
 {
-    internal class UiElement : IDisposable
+    internal class UiElement : IUiElement
     {
         // Fields
         private VolatileState<int> height;
         private VolatileState<string> text;
+        private IUiElement Element;
         private VolatileState<int> width;
         private VolatileState<int> x;
+        private VolatileState<int> y;
 
         // Constructors
-        public UiElement(UiElement element)
-            : this(element.Element, element.UiSession) {}
-
-        public UiElement(AppiumWebElement element, UiSession uiSession)
+        public UiElement(IUiElement element)
         {
-            this.Element = element;
-            this.UiSession = uiSession;
+            this.Element = (element is UiElement) ? ((UiElement)element).Element : element;
 
-            this.height = new VolatileState<int>(() => this.Element.Size.Height);
+            this.height = new VolatileState<int>(() => this.Element.Height);
             this.text = new VolatileState<string>(() => this.Element.Text);
-            this.width = new VolatileState<int>(() => this.Element.Size.Width);
-            this.x = new VolatileState<int>(() => this.Element.Location.X);
+            this.width = new VolatileState<int>(() => this.Element.Width);
+            this.x = new VolatileState<int>(() => this.Element.X);
+            this.y = new VolatileState<int>(() => this.Element.Y);
         }
 
         // Destructors
@@ -45,9 +41,6 @@ namespace zCompany.TaskAide.UiTests
         }
 
         // Properties
-        //public string AutomationId { get; private set; }
-
-        public AppiumWebElement Element { get; private set; }
 
         public int Height { get => this.height.Value; }
 
@@ -55,13 +48,11 @@ namespace zCompany.TaskAide.UiTests
 
         public string Text { get => this.text.Value; }
 
-        public UiSession UiSession { get; private set; }
-
         public int Width { get => this.width.Value; }
 
         public int X { get => this.x.Value; }
 
-        //public int Y { get => this.Element.Location.Y; }
+        public int Y { get => this.y.Value; }
 
         // Methods
         public void Click()
@@ -71,39 +62,37 @@ namespace zCompany.TaskAide.UiTests
 
         public void DoubleClick()
         {
-            new Actions(this.UiSession.Driver)
-                .MoveToElement(this.Element)
-                .DoubleClick()
-                .Perform();
+            this.Element.DoubleClick();
+        }
+
+        public void Drag(Point start, Point offset)
+        {
+            this.Element.Drag(start, offset);
         }
 
         public void EnterText(string text)
         {
-            this.Element.SendKeys(text);
+            this.Element.EnterText(text);
         }
 
-        public UiElement Find(By by)
+        public IUiElement Find(By by)
         {
-            var appiumElement = this.Element.FindElement(by);
-            return new UiElement((AppiumWebElement)appiumElement, this.UiSession);
+            return this.Element.Find(by);
         }
 
-        public UiElement Find(string automationId)
+        public IUiElement Find(string automationId)
         {
-            var appiumElement = this.Element.FindElementByAccessibilityId(automationId);
-            return new UiElement((AppiumWebElement)appiumElement, this.UiSession);
+            return this.Element.Find(automationId);
         }
 
-        public IReadOnlyCollection<UiElement> FindAll(By by)
+        public IReadOnlyCollection<IUiElement> FindAll(By by)
         {
-            var appiumElements = this.Element.FindElements(by);
-            return this.ConvertToUiElement(appiumElements);
+            return this.Element.FindAll(by);
         }
 
-        public IReadOnlyCollection<UiElement> FindAll(string automationId)
+        public IReadOnlyCollection<IUiElement> FindAll(string automationId)
         {
-            var appiumElements = this.Element.FindElementsByAccessibilityId(automationId);
-            return this.ConvertToUiElement(appiumElements);
+            return this.Element.FindAll(automationId);
         }
 
         public virtual UiElement Refresh()
@@ -112,10 +101,11 @@ namespace zCompany.TaskAide.UiTests
             this.text.Invalidate();
             this.width.Invalidate();
             this.x.Invalidate();
+            this.y.Invalidate();
             return this;
         }
 
-        public virtual void Resize(UiElement.Part part, int offset_ticks)
+        public void Resize(UiElement.Part part, int offset_ticks)
         {
             var bufferFromEdge_pixels = 4;
             var pixelsPerTick = 2;
@@ -136,35 +126,7 @@ namespace zCompany.TaskAide.UiTests
                     break;
             }
 
-            this.Drag(this, start_pixels, offset_pixels);
-        }
-
-        // Helpers
-        private ReadOnlyCollection<UiElement> ConvertToUiElement(ReadOnlyCollection<AppiumWebElement> appiumElements)
-        {
-            var uiElements = new List<UiElement>();
-            foreach (var element in appiumElements)
-            {
-                uiElements.Add(new UiElement(element, this.UiSession));
-            }
-            return new ReadOnlyCollection<UiElement>(uiElements);
-        }
-
-        private void Drag(UiElement element, Point start_pixels, Point offset_pixels)
-        {
-            new Actions(this.UiSession.Driver)
-                .MoveToElement(element.Element, start_pixels.X, start_pixels.Y)
-                .Perform();
-
-            var before = Util.ScreenCursorPosition;
-
-            new Actions(this.UiSession.Driver)
-                .ClickAndHold()
-                .MoveByOffset(offset_pixels.X, offset_pixels.Y)
-                .Release()
-                .Perform();
-
-            var after = Util.ScreenCursorPosition;
+            this.Drag(start_pixels, offset_pixels);
         }
     }
 }
