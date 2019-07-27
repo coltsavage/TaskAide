@@ -121,7 +121,7 @@
   <ItemGroup>
     <Compile Include="Common\UiApp.cs" />
     <Compile Include="Adapters\AppiumUiElement.cs" />
-    <Compile Include="Adapters\UiSession.cs" />
+    <Compile Include="Adapters\AppiumUiSession.cs" />
     <Compile Include="Fixtures\FiveIntervalAppFixture.cs" />
     <Compile Include="Fixtures\AppFixtureBase.cs" />
     <Compile Include="Fixtures\NoIntervalAppFixture.cs" />

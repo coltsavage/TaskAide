@@ -124,7 +124,7 @@
     <Compile Include="Interfaces\IUiSession.cs" />
     <Compile Include="Models\UiComboBox.cs" />
     <Compile Include="Models\UiElement.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="ScreenCursor.cs" />
     <Compile Include="VolatileList.cs" />
     <Compile Include="VolatileState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -132,7 +132,7 @@
     <Compile Include="Interfaces\ISeriesViewModel.cs" />
     <Compile Include="IntervalResizedArgs.cs" />
     <Compile Include="IntervalViewModel.cs" />
-    <Compile Include="UiAutomationExtensions\UiChart.cs" />
+    <Compile Include="UiAutomationExtensions\UiIntervalChart.cs" />
     <Compile Include="UiAutomationExtensions\UiInterval.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Field.xaml.cs">
