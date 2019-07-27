@@ -6,18 +6,19 @@ namespace zCompany.UiAutomation
     {
         // Fields
         private bool isValid;
+        private RetrieveState retrievaState;
         private T state;
 
         // Constructors
-        public VolatileState(Func<T> stateRetrieval)
+        public VolatileState(RetrieveState stateRetrieval)
         {
-            this.RetrieveState = stateRetrieval;
+            this.retrievaState = stateRetrieval;
 
             this.isValid = false;
         }
 
         // Delegates
-        private Func<T> RetrieveState;
+        public delegate T RetrieveState();
 
         // Properties
         public T Value
@@ -34,7 +35,7 @@ namespace zCompany.UiAutomation
         // Helpers
         private T GetState()
         {
-            this.state = this.RetrieveState();
+            this.state = this.retrievaState();
             this.isValid = true;
             return this.state;
         }

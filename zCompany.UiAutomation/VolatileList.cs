@@ -6,21 +6,23 @@ namespace zCompany.UiAutomation
     public class VolatileList<T> : List<T>
     {
         // Fields
+        private InstantiateItem instantiateItem;
         private bool isValid;
+        private RetrieveList retrieveList;
 
         // Constructors
-        public VolatileList(Func<IReadOnlyCollection<IUiElement>> listRetrieval, Func<IUiElement, T> itemInstantiation)
+        public VolatileList(RetrieveList listRetrieval, InstantiateItem itemInstantiation)
             :base()
         {
-            this.RetrieveList = listRetrieval;
-            this.InstantiateItem = itemInstantiation;
+            this.retrieveList = listRetrieval;
+            this.instantiateItem = itemInstantiation;
 
             this.isValid = false;            
         }
 
         // Delegates
-        private Func<IUiElement, T> InstantiateItem;
-        private Func<IReadOnlyCollection<IUiElement>> RetrieveList;
+        public delegate T InstantiateItem(IUiElement item);
+        public delegate IReadOnlyCollection<IUiElement> RetrieveList();
 
         // Properties
         public IReadOnlyCollection<T> Value
@@ -38,10 +40,10 @@ namespace zCompany.UiAutomation
         // Helpers
         private IReadOnlyCollection<T> GetList()
         {
-            var readOnlyList = this.RetrieveList();
+            var readOnlyList = this.retrieveList();
             foreach (var item in readOnlyList)
             {
-                base.Add(this.InstantiateItem(item));
+                base.Add(this.instantiateItem(item));
             }
             this.isValid = true;
             return this;
