@@ -9,25 +9,25 @@ namespace zCompany.TaskAide.UiTests
     {
         // Fields
         private VolatileState<UiChart> chart;
+        private IUiSession externalUiSession;
         private VolatileState<UiComboBox> taskSelector;
-        private IUiSession ui;
 
         // Constructors
         public UiApp(IUiSession uiSession)
         {
-            this.ui = uiSession;
+            this.externalUiSession = uiSession;
 
             this.chart = new VolatileState<UiChart>(
-                () => new UiChart(this.ui.Find(By.ClassName(UiChart.ClassName))));
+                () => new UiChart(this.externalUiSession.Find(By.ClassName(UiChart.ClassName))));
 
             this.taskSelector = new VolatileState<UiComboBox>(
-                () => new UiComboBox(this.ui.Find("TaskListView")));
+                () => new UiComboBox(this.externalUiSession.Find("TaskListView")));
         }
 
         // Destructors
         public void Dispose()
         {
-            this.ui.Dispose();
+            this.externalUiSession.Dispose();
         }
 
         // Properties
@@ -38,15 +38,15 @@ namespace zCompany.TaskAide.UiTests
         // Methods
         public DateTimeOffset GetSystemDateTime()
         {
-            var systemTime = this.ui.Find("TimeDisplay");
+            var systemTime = this.externalUiSession.Find("TimeDisplay");
             var dateTime = DateTimeOffset.Parse(systemTime.Text);
             return dateTime - new TimeSpan(0, 0, dateTime.Second);
         }
         
         public void Progress(int minutes)
         {
-            this.ui.Find("JumpAheadTextBox").EnterText(minutes.ToString());
-            this.ui.Find("JumpAheadButton").Click();
+            this.externalUiSession.Find("JumpAheadTextBox").EnterText(minutes.ToString());
+            this.externalUiSession.Find("JumpAheadButton").Click();
         }
 
         public void Refresh()

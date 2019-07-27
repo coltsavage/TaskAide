@@ -66,6 +66,7 @@ namespace zCompany.TaskAide.WindowsApp
         private async void ConfigureButton_Click(object sender, RoutedEventArgs args)
         {
             SettingsDialog config = new SettingsDialog(this.TaskListViewModel, this.taskAide.ActiveTask, this.appSettings);
+
             config.TaskNameChanged =
                 (task, newName) =>
                 {
@@ -77,12 +78,14 @@ namespace zCompany.TaskAide.WindowsApp
                         series.Name = newName;
                     }
                 };
+
             config.TaskRemoved =
                 (task) =>
                 {
                     this.taskAide.RemoveTask(task);
                     this.Chart.RemoveSeries(task.TID);
                 };
+
             config.TaskColorChanged +=
                 (object o, TaskColorChangedArgs e) =>
                 {
@@ -96,6 +99,7 @@ namespace zCompany.TaskAide.WindowsApp
                         this.Chart.AddSeries(e.Task.TID, new SeriesViewModel(e.Task.Name, e.Color));
                     }
                 };
+
             await config.ShowAsync();
         }
 
