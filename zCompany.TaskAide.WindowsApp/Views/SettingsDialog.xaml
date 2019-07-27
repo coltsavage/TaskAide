@@ -90,7 +90,7 @@
                             IsColorPreviewVisible="True"
                             IsColorChannelTextInputVisible="False"
                             IsHexInputVisible="False"
-                            Color="{x:Bind GetColorOfSelectedTask()}">                        
+                            Color="{x:Bind SelectedTaskColor, Mode=OneWay}">                        
                         </ColorPicker>
 
                         <Grid>

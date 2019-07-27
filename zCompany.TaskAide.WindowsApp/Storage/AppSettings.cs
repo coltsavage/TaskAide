@@ -31,7 +31,7 @@ namespace zCompany.TaskAide.WindowsApp
             var value = this.roamingSettings.Values[task.TID.ToString()];
             if (value == null)
             {
-                color = AppSettings.Colors[AppSettings.ColorIndex++];
+                color = AppSettings.Colors[AppSettings.ColorIndex++ % AppSettings.Colors.Length];
                 this.SetTaskColor(task, color);
             }
             else

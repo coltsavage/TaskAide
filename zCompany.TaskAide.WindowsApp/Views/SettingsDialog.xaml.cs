@@ -44,6 +44,11 @@ namespace zCompany.TaskAide.WindowsApp
         public event EventHandler<TaskColorChangedArgs> TaskColorChanged;
 
         // Properties
+        public Color SelectedTaskColor
+        {
+            get { return this.selectedTaskColorBrush.Color; }
+        }
+
         private SolidColorBrush selectedTaskColorBrush;
         public SolidColorBrush SelectedTaskColorBrush
         {
@@ -52,25 +57,13 @@ namespace zCompany.TaskAide.WindowsApp
             {
                 this.selectedTaskColorBrush = value;
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedTaskColorBrush"));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedTaskColor"));
             }
         }
 
         public ITask SelectedTaskOnOpen { get; }
 
         public ITaskListViewModel TaskListViewModel { get; }
-
-        // Methods
-        public Color GetColorOfSelectedTask()
-        {
-            if (DialogTaskListView.SelectedItem == null)
-            {
-                return Colors.White;
-            }
-            else
-            {
-                return this.appSettings.GetTaskColor((ITask)DialogTaskListView.SelectedItem);
-            }
-        }
 
         // Event Handlers
         private void ColorCancel_Click(object sender, RoutedEventArgs args)
