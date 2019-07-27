@@ -119,18 +119,9 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\IUiElement.cs" />
-    <Compile Include="Common\IUiSession.cs" />
     <Compile Include="Common\UiApp.cs" />
-    <Compile Include="Common\UiChart.cs" />
-    <Compile Include="Common\UiComboBox.cs" />
-    <Compile Include="Common\UiElement.cs" />
-    <Compile Include="Common\AppiumUiElement.cs" />
-    <Compile Include="Common\UiInterval.cs" />
-    <Compile Include="Common\UiSession.cs" />
-    <Compile Include="Common\Util.cs" />
-    <Compile Include="Common\VolatileList.cs" />
-    <Compile Include="Common\VolatileState.cs" />
+    <Compile Include="Adapters\AppiumUiElement.cs" />
+    <Compile Include="Adapters\UiSession.cs" />
     <Compile Include="Fixtures\FiveIntervalAppFixture.cs" />
     <Compile Include="Fixtures\AppFixtureBase.cs" />
     <Compile Include="Fixtures\NoIntervalAppFixture.cs" />
@@ -184,6 +175,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\zCompany.UiAutomation\zCompany.UiAutomation.csproj">
+      <Project>{0ef95e78-790b-4e20-b06e-ada023eaaf4c}</Project>
+      <Name>zCompany.UiAutomation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\zCompany.Windows.Charts\zCompany.Windows.Charts.csproj">
+      <Project>{fe0cfd7c-29e8-4181-89fd-a3724da02d37}</Project>
+      <Name>zCompany.Windows.Charts</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

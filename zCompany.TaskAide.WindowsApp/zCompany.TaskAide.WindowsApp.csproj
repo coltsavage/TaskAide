@@ -189,6 +189,10 @@
       <Project>{efc66cc4-3339-403d-9436-8896891c3af8}</Project>
       <Name>zCompany.TaskAide.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\zCompany.UiAutomation\zCompany.UiAutomation.csproj">
+      <Project>{0ef95e78-790b-4e20-b06e-ada023eaaf4c}</Project>
+      <Name>zCompany.UiAutomation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\zCompany.Utilities\zCompany.Utilities.csproj">
       <Project>{4f1398d4-3ed2-4283-b2d5-139c64d12e53}</Project>
       <Name>zCompany.Utilities</Name>
