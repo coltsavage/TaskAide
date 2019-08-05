@@ -1,99 +1,149 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using zCompany.Utilities;
 
 namespace zCompany.TaskAide.WindowsApp
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
     sealed partial class App : Application
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
+        // Class Properties
+        internal static AppSettings Settings { get; private set; }
+        internal static TaskAide State { get; private set; }
+
+        // Constructors
         public App()
         {
             this.InitializeComponent();
+
+            this.EnteredBackground += OnEnteredBackground;
+            this.LeavingBackground += OnLeavingBackground;
+            this.Resuming += OnResuming;
             this.Suspending += OnSuspending;
         }
 
-        /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used such as when the application is launched to open a specific file.
-        /// </summary>
-        /// <param name="e">Details about the launch request and process.</param>
+        // Event Handlers - Activations
         protected override void OnLaunched(LaunchActivatedEventArgs e)
+        // Occurrence
+        //  - when user launches app (ie. tile selection)
+        //  - during prelaunch, when system launches app
+        // Assumptions
+        //  - prelaunch is disabled by default (post v1607)
+        //      - when enabled, may be prelaunch or may have already prelaunched
+        //  - app may not immediately be visible (eg. prelaunch)
+        //  - previous state unknown (eg. user terminated, system terminated, crashed/hasn't-run, suspended, running)
+        //  - app will feel unresponsive if execution exceeds a few seconds
+        // Actions
+        //  - initial app resources and state
+        //  - register event handlers
+        //  - configure and set initial page (on user launch)
+        //  - display splash screen (on user launch)
+        //      - (utilize custom SplashScreen if initialization requires more time) 
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
+            if (App.State == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                var systemTime = new SystemTimeDev(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"));
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
+                var taskAide = new TaskAide(new Database("Filename=TaskAide.db"), systemTime, new TimerDev(systemTime));
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if ((e.PreviousExecutionState == ApplicationExecutionState.ClosedByUser) ||
+                    (e.PreviousExecutionState == ApplicationExecutionState.Terminated))
                 {
-                    //TODO: Load state from previously suspended application
+                    // restore previous user session state
                 }
 
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
+                App.Settings = new AppSettings();
+                App.State = taskAide;
             }
 
-            if (e.PrelaunchActivated == false)
+            if (!e.PrelaunchActivated)
             {
-                if (rootFrame.Content == null)
+                if (Window.Current.Content == null)
                 {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(ActiveSession), e.Arguments);
+                    Window.Current.Content = new ActiveSession();
                 }
-                // Ensure the current window is active
                 Window.Current.Activate();
             }
         }
 
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        // Event Handlers - Changing State
+        private void OnEnteredBackground(object sender, EnteredBackgroundEventArgs args)
+        // State change: Running in foreground > Running in background
+        // Occurrence
+        //  - when app loses visibility
+        //  - when user terminated
+        // Assumptions
+        //  - UI losing visibility
+        //  - may avoid suspension
+        //      - if below memory threshold
+        //      - if performing ongoing background task (ie. audio playback)
+        //  - system may terminate to free resources without first moving to Suspended state
+        //  - execution time is limited (may request extension (may not be granted))
+        // Actions
+        //  - cease UI behavior
+        //  - perform some/all OnSuspending() actions (should be async due to time constraints?)
+        //  - begin/continue ongoing background tasks (ie. audio playback)
+        //  - free UI memory resources until below AppMemoryUsageLimit threshold
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            var deferral = args.GetDeferral();
+
+            // async calls
+
+            deferral.Complete();
         }
 
-        /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
-        /// </summary>
-        /// <param name="sender">The source of the suspend request.</param>
-        /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs args)
+        // State change: Running in background > Running in foreground
+        // Occurrence
+        //  - when app becomes visible
+        // Assumptions
+        //  - UI not yet visible
+        //  - app will feel unresponsive if execution isn't immediate
+        // Actions
+        //  - update and commence UI behavior
+        //  - kick-off async calls to long-running tasks
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+
+        }
+
+        private void OnResuming(object sender, object args)
+        // State change: Suspended > Running in background
+        // Occurrence
+        //  - when app becomes visible following extended non-visibility
+        //  - when activated via app contract/extension
+        // Assumptions
+        //  - state was preserved
+        //  - when app is activated, occurs prior Activated event
+        //  - does not execute on UI thread
+        //  - app will feel unresponsive if execution exceeds a few seconds
+        // Actions
+        //  - restore state released when suspending
+        {
+
+        }
+
+        private void OnSuspending(object sender, SuspendingEventArgs args)
+        // State change: Running in background > Suspended
+        // Occurrence
+        //  - when app is not visible (beyond a few seconds) and no ongoing background tasks
+        //  - during prelaunch, following system's OnLaunched()
+        //  - when user terminated
+        // Assumptions
+        //  - may be terminated to free system resources
+        //  - not all resources may yet be allocated (eg. prelaunch)
+        //  - execution time is limited (may request extension (may not be granted))
+        //  - not called if system terminated while in "Running in background" state
+        // Actions
+        //  - preserve user session state
+        //  - release handles/locks on resources
+        //  - reduce memory usage
+        //  - save app state
+        {
+            var deferral = args.SuspendingOperation.GetDeferral();
+
+            // async calls
+
             deferral.Complete();
         }
     }

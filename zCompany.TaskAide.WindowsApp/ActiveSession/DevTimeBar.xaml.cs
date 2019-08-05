@@ -11,10 +11,12 @@ namespace zCompany.TaskAide.WindowsApp
         public DevTimeBar()
         {
             this.InitializeComponent();
+
+            ((SystemTimeDev)App.State.Time).SpeedMultiplier = 128;
         }
 
         // Properties
-        public SystemTimeDev SystemTime { get; set; }
+        public SystemTimeDev SystemTime { get => (SystemTimeDev)App.State.Time; }
 
         // Event Handlers
         private void FastForwardButton_Click(object sender, RoutedEventArgs e)

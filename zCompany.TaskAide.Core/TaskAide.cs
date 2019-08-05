@@ -55,6 +55,8 @@ namespace zCompany.TaskAide
         // Properties
         public ITask ActiveTask { get; private set; }
 
+        public ISystemTime Time { get => this.systemTime; }
+
         // Methods
         public ITask AddTask(string taskName)
         {

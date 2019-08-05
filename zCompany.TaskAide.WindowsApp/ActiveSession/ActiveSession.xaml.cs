@@ -11,28 +11,13 @@ namespace zCompany.TaskAide.WindowsApp
 {
     internal sealed partial class ActiveSession : Page
     {
-        // Fields
-        private TaskAide taskAide;
-        private AppSettings appSettings;
-
         // Constructors
         public ActiveSession()
         {
             this.InitializeComponent();
+            this.TaskListViewModel = new TaskListViewModel(App.State.GetTaskList());
 
-            Database db = new Database("Filename=TaskTracker.db");
-
-            var systemTime = new SystemTimeDev(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"));
-            systemTime.SpeedMultiplier = 64;
-
-            this.TimeBar.SystemTime = systemTime;
-
-            this.taskAide = new TaskAide(db, systemTime, new TimerDev(systemTime));
-            this.appSettings = new AppSettings();
-
-            this.TaskListViewModel = new TaskListViewModel(this.taskAide.GetTaskList());
-
-            IDateTimeZone dateTime = this.taskAide.StartSession();
+            IDateTimeZone dateTime = App.State.StartSession();
             this.Chart.ConfigureAxisLabels(new TimeLabelProvider(dateTime, 30));
         }
 
@@ -50,14 +35,14 @@ namespace zCompany.TaskAide.WindowsApp
             if (args.Key == global::Windows.System.VirtualKey.Enter)
             {
                 var textBox = (TextBox)sender;
-                this.taskAide.AddTask(textBox.Text);
+                App.State.AddTask(textBox.Text);
                 AddTaskFlyout.Hide();
             }
         }
 
         private void Chart_IntervalResized(object sender, IntervalResizedEventArgs args)
         {
-            this.taskAide.UserChangedInterval(
+            App.State.UserChangedInterval(
                 ((IntervalViewModel)args.ViewModel).Model,
                 new TimeSpan(0, args.StartDelta, 0),
                 new TimeSpan(0, args.SpanDelta, 0));
@@ -65,12 +50,12 @@ namespace zCompany.TaskAide.WindowsApp
 
         private async void ConfigureButton_Click(object sender, RoutedEventArgs args)
         {
-            Tasks config = new Tasks(this.TaskListViewModel, this.taskAide.ActiveTask, this.appSettings);
+            Tasks config = new Tasks(this.TaskListViewModel, App.State.ActiveTask, App.Settings);
 
             config.TaskNameChanged =
                 (task, newName) =>
                 {
-                    this.taskAide.RenameTask(task, newName);
+                    App.State.RenameTask(task, newName);
 
                     var series = (SeriesViewModel)this.Chart.GetSeries(task.TID);
                     if (series != null)
@@ -82,7 +67,7 @@ namespace zCompany.TaskAide.WindowsApp
             config.TaskRemoved =
                 (task) =>
                 {
-                    this.taskAide.RemoveTask(task);
+                    App.State.RemoveTask(task);
                     this.Chart.RemoveSeries(task.TID);
                 };
 
@@ -108,7 +93,7 @@ namespace zCompany.TaskAide.WindowsApp
             if (((ComboBox)sender).SelectedItem != null)
             {
                 var task = (ITask)args.AddedItems.First();
-                IInterval interval = this.taskAide.SwitchTasks(task);
+                IInterval interval = App.State.SwitchTasks(task);
                 if (interval != null)
                 {
                     this.AddIntervalToChart(interval, task);
@@ -123,7 +108,7 @@ namespace zCompany.TaskAide.WindowsApp
             bool success = this.Chart.AddInterval(interval.TaskId, intervalViewModel);
             if (!success)
             {
-                Color color = this.appSettings.GetTaskColor(task);
+                Color color = App.Settings.GetTaskColor(task);
                 this.Chart.AddSeries(task.TID, new SeriesViewModel(task.Name, color));
                 this.Chart.AddInterval(interval.TaskId, intervalViewModel);
             }
