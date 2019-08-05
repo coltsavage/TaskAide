@@ -2,10 +2,10 @@
 
 namespace zCompany.TaskAide.WindowsApp
 {
-    internal class TaskColorChangedArgs
+    internal class TaskColorChangedEventArgs
     {
         // Constructors
-        public TaskColorChangedArgs(ITask task, Color color)
+        public TaskColorChangedEventArgs(ITask task, Color color)
         {
             this.Task = task;
             this.Color = color;

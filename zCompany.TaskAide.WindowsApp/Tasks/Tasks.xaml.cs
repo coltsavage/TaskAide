@@ -8,13 +8,13 @@ using Windows.UI.Xaml.Media;
 
 namespace zCompany.TaskAide.WindowsApp
 {
-    internal sealed partial class SettingsDialog : ContentDialog, INotifyPropertyChanged
+    internal sealed partial class Tasks : ContentDialog, INotifyPropertyChanged
     {
         // Fields
         private AppSettings appSettings;
         
         // Constructors
-        public SettingsDialog(ITaskListViewModel taskListViewModel, ITask currentTask, AppSettings appSettings)
+        public Tasks(ITaskListViewModel taskListViewModel, ITask currentTask, AppSettings appSettings)
         {
             this.InitializeComponent();
 
@@ -41,7 +41,7 @@ namespace zCompany.TaskAide.WindowsApp
         // Events
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public event EventHandler<TaskColorChangedArgs> TaskColorChanged;
+        public event EventHandler<TaskColorChangedEventArgs> TaskColorChanged;
 
         // Properties
         public Color SelectedTaskColor
@@ -79,11 +79,11 @@ namespace zCompany.TaskAide.WindowsApp
             this.SelectedTaskColorBrush = new SolidColorBrush(color);
             this.appSettings.SetTaskColor(task, color);
 
-            this.TaskColorChanged?.Invoke(this, new TaskColorChangedArgs(task, color));
+            this.TaskColorChanged?.Invoke(this, new TaskColorChangedEventArgs(task, color));
             TaskColorFlyout.Hide();
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs args)
+        private void DeleteRequestor_Click(object sender, RoutedEventArgs args)
         {
             var task = (ITask)DialogTaskListView.SelectedItem;
             this.appSettings.RemoveTask(task);

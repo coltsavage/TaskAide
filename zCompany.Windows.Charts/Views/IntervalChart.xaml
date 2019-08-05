@@ -10,7 +10,7 @@
 
     <StackPanel>
         <local:Field
-            x:Name="Region">
+            x:Name="Field">
         </local:Field>
         
         <local:TimeAxis

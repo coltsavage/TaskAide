@@ -63,12 +63,7 @@ namespace zCompany.Utilities
         }
 
         // Methods
-        public void Pause()
-        {
-            this.StopTimer();
-        }
-
-        public void Progress(int mins)
+        public void FastForward(int mins)
         {
             bool wasActive = false;
 
@@ -87,6 +82,11 @@ namespace zCompany.Utilities
             {
                 this.Resume();
             }
+        }
+
+        public void Pause()
+        {
+            this.StopTimer();
         }
 
         public void Resume()

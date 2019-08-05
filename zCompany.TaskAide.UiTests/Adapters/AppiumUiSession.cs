@@ -7,10 +7,10 @@ using zCompany.UiAutomation;
 
 namespace zCompany.TaskAide.UiTests
 {
-    internal class UiSession : IUiSession
+    internal class AppiumUiSession : IUiSession
     {
         // Constructors
-        public UiSession()
+        public AppiumUiSession()
         {
             DesiredCapabilities appCapabilities = new DesiredCapabilities();
             appCapabilities.SetCapability("app", "65512fbe-1595-484c-a9cb-54cba610a267_gxpjec3yzjwte!App");

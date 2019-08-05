@@ -9,14 +9,14 @@ using zCompany.Windows.Charts;
 
 namespace zCompany.TaskAide.WindowsApp
 {
-    internal sealed partial class MainPage : Page
+    internal sealed partial class ActiveSession : Page
     {
         // Fields
         private TaskAide taskAide;
         private AppSettings appSettings;
 
         // Constructors
-        public MainPage()
+        public ActiveSession()
         {
             this.InitializeComponent();
 
@@ -55,7 +55,7 @@ namespace zCompany.TaskAide.WindowsApp
             }
         }
 
-        private void Chart_IntervalResized(object sender, IntervalResizedArgs args)
+        private void Chart_IntervalResized(object sender, IntervalResizedEventArgs args)
         {
             this.taskAide.UserChangedInterval(
                 ((IntervalViewModel)args.ViewModel).Model,
@@ -65,7 +65,7 @@ namespace zCompany.TaskAide.WindowsApp
 
         private async void ConfigureButton_Click(object sender, RoutedEventArgs args)
         {
-            SettingsDialog config = new SettingsDialog(this.TaskListViewModel, this.taskAide.ActiveTask, this.appSettings);
+            Tasks config = new Tasks(this.TaskListViewModel, this.taskAide.ActiveTask, this.appSettings);
 
             config.TaskNameChanged =
                 (task, newName) =>
@@ -87,7 +87,7 @@ namespace zCompany.TaskAide.WindowsApp
                 };
 
             config.TaskColorChanged +=
-                (object o, TaskColorChangedArgs e) =>
+                (object o, TaskColorChangedEventArgs e) =>
                 {
                     var series = (SeriesViewModel)this.Chart.GetSeries(e.Task.TID);
                     if (series != null)
@@ -108,7 +108,7 @@ namespace zCompany.TaskAide.WindowsApp
             if (((ComboBox)sender).SelectedItem != null)
             {
                 var task = (ITask)args.AddedItems.First();
-                IInterval interval = this.taskAide.StartWorking(task);
+                IInterval interval = this.taskAide.SwitchTasks(task);
                 if (interval != null)
                 {
                     this.AddIntervalToChart(interval, task);

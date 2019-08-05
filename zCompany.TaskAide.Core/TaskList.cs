@@ -21,7 +21,7 @@ namespace zCompany.TaskAide
         // Properties
         public List<ITask> Tasks
         {
-            get => this.GetTaskList();
+            get => this.GetListFromStorage();
         }
 
         // Methods
@@ -64,7 +64,7 @@ namespace zCompany.TaskAide
         }
 
         // Helpers
-        private List<ITask> GetTaskList()
+        private List<ITask> GetListFromStorage()
         {
             List<Task> list = this.table.GetTaskList();
             return list.ConvertAll(new Converter<Task, ITask>(

@@ -55,8 +55,8 @@ namespace zCompany.TaskAide
             return new[]
             {
                 new Database.TableField(SessionTable.Column.SessionId, instance.SID.ToString()),
-                new Database.TableField(SessionTable.Column.Date, instance.Date.UtcTicks.ToString()),
-                new Database.TableField(SessionTable.Column.TimeZone, instance.Date.InitialTimeZoneId),
+                new Database.TableField(SessionTable.Column.Date, instance.DateTimeStart.UtcTicks.ToString()),
+                new Database.TableField(SessionTable.Column.TimeZone, instance.DateTimeStart.InitialTimeZoneId),
             };
         }
 

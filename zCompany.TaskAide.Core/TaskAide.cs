@@ -92,7 +92,7 @@ namespace zCompany.TaskAide
             return dateTime;
         }
 
-        public IInterval StartWorking(ITask task)
+        public IInterval SwitchTasks(ITask task)
         {
             IInterval im = null;
             if ((this.ActiveTask == null) || (task.TID != this.ActiveTask.TID))

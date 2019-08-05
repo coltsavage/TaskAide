@@ -23,7 +23,7 @@ namespace zCompany.Windows.Charts
         }
 
         // Events
-        public event EventHandler<IntervalResizedArgs> IntervalResized;
+        public event EventHandler<IntervalResizedEventArgs> IntervalResized;
 
         // Methods
         public bool AddInterval(int seriesUID, IIntervalViewModel ivm)
@@ -34,7 +34,7 @@ namespace zCompany.Windows.Charts
             {
                 var interval = new Interval(new IntervalViewModel(ivm, series, this.chartState), this.chartState);
                 interval.IntervalResized += this.OnIntervalResized;
-                Region.NewInterval(interval);
+                Field.Add(interval);
             }
             return found;
         }
@@ -68,7 +68,7 @@ namespace zCompany.Windows.Charts
             return new IntervalChartAutomationPeer(this);
         }
 
-        private void OnIntervalResized(object sender, IntervalResizedArgs args)
+        private void OnIntervalResized(object sender, IntervalResizedEventArgs args)
         {
             this.IntervalResized?.Invoke(this, args);
         }

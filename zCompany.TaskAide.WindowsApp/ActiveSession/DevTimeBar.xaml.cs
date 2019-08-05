@@ -17,16 +17,16 @@ namespace zCompany.TaskAide.WindowsApp
         public SystemTimeDev SystemTime { get; set; }
 
         // Event Handlers
-        private void JumpAheadButton_Click(object sender, RoutedEventArgs e)
+        private void FastForwardButton_Click(object sender, RoutedEventArgs e)
         {
-            int mins = Convert.ToInt32(this.JumpAheadTextBox.Text);
-            this.SystemTime.Progress(mins);
-            this.JumpAheadTextBox.Text = "0";
+            int mins = Convert.ToInt32(this.JumpAmountTextBox.Text);
+            this.SystemTime.FastForward(mins);
+            this.JumpAmountTextBox.Text = "0";
         }
 
-        private void JumpAheadTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void JumpAmountTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            this.JumpAheadTextBox.SelectAll();
+            this.JumpAmountTextBox.SelectAll();
         }
 
         private void PauseResumeTimeToggle_Click(object sender, RoutedEventArgs e)

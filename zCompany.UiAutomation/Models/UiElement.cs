@@ -8,7 +8,7 @@ namespace zCompany.UiAutomation
     public class UiElement : IUiElement
     {
         // Fields
-        private IUiElement externalUiElement;
+        private IUiElement External;
         private VolatileState<int> height;
         private VolatileState<string> text;
         private VolatileState<int> width;
@@ -18,13 +18,13 @@ namespace zCompany.UiAutomation
         // Constructors
         public UiElement(IUiElement element)
         {
-            this.externalUiElement = (element is UiElement) ? ((UiElement)element).externalUiElement : element;
+            this.External = (element is UiElement) ? ((UiElement)element).External : element;
 
-            this.height = new VolatileState<int>(() => this.externalUiElement.Height);
-            this.text = new VolatileState<string>(() => this.externalUiElement.Text);
-            this.width = new VolatileState<int>(() => this.externalUiElement.Width);
-            this.x = new VolatileState<int>(() => this.externalUiElement.X);
-            this.y = new VolatileState<int>(() => this.externalUiElement.Y);
+            this.height = new VolatileState<int>(() => this.External.Height);
+            this.text = new VolatileState<string>(() => this.External.Text);
+            this.width = new VolatileState<int>(() => this.External.Width);
+            this.x = new VolatileState<int>(() => this.External.X);
+            this.y = new VolatileState<int>(() => this.External.Y);
         }
 
         // Destructors
@@ -56,42 +56,42 @@ namespace zCompany.UiAutomation
         // Methods
         public void Click()
         {
-            this.externalUiElement.Click();
+            this.External.Click();
         }
 
         public void DoubleClick()
         {
-            this.externalUiElement.DoubleClick();
+            this.External.DoubleClick();
         }
 
         public void Drag(Point start, Point offset)
         {
-            this.externalUiElement.Drag(start, offset);
+            this.External.Drag(start, offset);
         }
 
         public void EnterText(string text)
         {
-            this.externalUiElement.EnterText(text);
+            this.External.EnterText(text);
         }
 
         public IUiElement Find(By by)
         {
-            return this.externalUiElement.Find(by);
+            return this.External.Find(by);
         }
 
         public IUiElement Find(string automationId)
         {
-            return this.externalUiElement.Find(automationId);
+            return this.External.Find(automationId);
         }
 
         public IReadOnlyCollection<IUiElement> FindAll(By by)
         {
-            return this.externalUiElement.FindAll(by);
+            return this.External.FindAll(by);
         }
 
         public IReadOnlyCollection<IUiElement> FindAll(string automationId)
         {
-            return this.externalUiElement.FindAll(automationId);
+            return this.External.FindAll(automationId);
         }
 
         public virtual UiElement Refresh()

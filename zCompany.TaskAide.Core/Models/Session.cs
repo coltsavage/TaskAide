@@ -25,7 +25,7 @@ namespace zCompany.TaskAide
         // Properties
         public Interval ActiveInterval { get; set; }
 
-        public IDateTimeZone Date
+        public IDateTimeZone DateTimeStart
         {
             get { return this.dateTime; }
         }

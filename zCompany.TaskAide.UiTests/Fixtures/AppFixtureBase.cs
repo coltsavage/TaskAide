@@ -8,7 +8,7 @@ namespace zCompany.TaskAide.UiTests
         // Constructors
         public AppFixtureBase()
         {
-            this.UiSession = new UiSession();
+            this.UiSession = new AppiumUiSession();
         }
 
         // Destructors

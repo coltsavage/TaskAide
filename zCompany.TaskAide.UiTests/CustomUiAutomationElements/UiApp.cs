@@ -45,8 +45,8 @@ namespace zCompany.TaskAide.UiTests
         
         public void Progress(int minutes)
         {
-            this.externalUiSession.Find("JumpAheadTextBox").EnterText(minutes.ToString());
-            this.externalUiSession.Find("JumpAheadButton").Click();
+            this.externalUiSession.Find("JumpAmountTextBox").EnterText(minutes.ToString());
+            this.externalUiSession.Find("FastForwardButton").Click();
         }
 
         public void Refresh()

@@ -52,19 +52,19 @@
         </Button>
 
         <Button
-            x:Name="JumpAheadButton"
+            x:Name="FastForwardButton"
             Margin="40,0,0,0"
             Content="+"
-            Click="JumpAheadButton_Click">
+            Click="FastForwardButton_Click">
         </Button>
 
         <TextBox
-            x:Name="JumpAheadTextBox"
+            x:Name="JumpAmountTextBox"
             Margin="8,0"
             VerticalAlignment="Center"
             Width="50"
             Text="0"
-            GotFocus="JumpAheadTextBox_GotFocus">            
+            GotFocus="JumpAmountTextBox_GotFocus">            
         </TextBox>
     </StackPanel>
 </UserControl>

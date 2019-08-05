@@ -13,13 +13,13 @@ namespace zCompany.TaskAide.UiTests
     {
         // Fields
         AppiumWebElement uiElement;
-        UiSession uiSession;
+        AppiumUiSession uiSession;
 
         // Constructors
-        public AppiumUiElement(AppiumWebElement element, UiSession uiSession)
+        public AppiumUiElement(AppiumWebElement element, AppiumUiSession uiSession)
         {
             this.uiElement = element;
-            this.uiSession = (UiSession)uiSession;
+            this.uiSession = (AppiumUiSession)uiSession;
         }
 
         // Destructors

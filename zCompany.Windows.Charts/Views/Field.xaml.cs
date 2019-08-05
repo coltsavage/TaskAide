@@ -17,7 +17,7 @@ namespace zCompany.Windows.Charts
         }
 
         // Methods
-        public void NewInterval(Interval view)
+        public void Add(Interval view)
         {
             view.Height = container.Height;
             view.PointerPressed += this.OnPointerPressedInInterval;

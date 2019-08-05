@@ -2,10 +2,10 @@
 
 namespace zCompany.Windows.Charts
 {
-    public class IntervalResizedArgs
+    public class IntervalResizedEventArgs
     {
         // Constructors
-        public IntervalResizedArgs(IIntervalViewModel viewModel, int startDelta, int spanDelta)
+        public IntervalResizedEventArgs(IIntervalViewModel viewModel, int startDelta, int spanDelta)
         {
             this.ViewModel = viewModel;
             this.StartDelta = startDelta;

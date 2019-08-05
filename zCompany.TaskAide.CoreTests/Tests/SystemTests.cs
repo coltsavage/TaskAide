@@ -130,12 +130,12 @@ namespace zCompany.TaskAide.Tests
             Assert.Equal(this.systemTime.UtcNow.UtcTicks, dateTime.UtcTicks);
 
             // Test
-            var interval = controller.StartWorking(refTask);
+            var interval = controller.SwitchTasks(refTask);
             Assert.NotNull(interval);
             Assert.Equal(refTask, controller.ActiveTask);
 
             // Test: time passage
-            this.systemTime.Progress(timeProgression_mins);
+            this.systemTime.FastForward(timeProgression_mins);
             Assert.Equal(timeProgression_mins, Math.Ceiling(interval.Span.TotalMinutes));
         }
     }

@@ -38,7 +38,7 @@ namespace zCompany.Windows.Charts
         }
 
         // Events
-        public event EventHandler<IntervalResizedArgs> IntervalResized;
+        public event EventHandler<IntervalResizedEventArgs> IntervalResized;
 
         // Properties
         public int InstanceNumber { get; private set; }
@@ -94,7 +94,7 @@ namespace zCompany.Windows.Charts
                     args.Handled = true;
                     int delta_tick = this.resizer.CalculatePointerDelta_abs(args.GetCurrentPoint(null));
 
-                    this.IntervalResized?.Invoke(this, new IntervalResizedArgs(
+                    this.IntervalResized?.Invoke(this, new IntervalResizedEventArgs(
                         this.ViewModel.OriginalModel,
                         (this.resizer.ResizedStart) ? delta_tick : 0,
                         (this.resizer.ResizedEnd) ? delta_tick : 0
