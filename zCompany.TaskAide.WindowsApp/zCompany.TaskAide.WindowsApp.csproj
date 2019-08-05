@@ -116,6 +116,12 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Events\AppEvents.cs" />
+    <Compile Include="Events\TaskAddedEventArgs.cs" />
+    <Compile Include="Events\TaskNameChangedEventArgs.cs" />
+    <Compile Include="Events\TaskRemovedEventArgs.cs" />
+    <Compile Include="Events\UserChangedIntervalEventArgs.cs" />
+    <Compile Include="Events\UserSwitchedTasksEventArgs.cs" />
     <Compile Include="Session\IntervalViewModel.cs" />
     <Compile Include="Session\SeriesViewModel.cs" />
     <Compile Include="Adapters\TaskListViewModel.cs" />

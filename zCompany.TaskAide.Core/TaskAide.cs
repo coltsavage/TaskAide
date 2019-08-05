@@ -5,7 +5,7 @@ using zCompany.Utilities;
 
 namespace zCompany.TaskAide
 {
-    public class TaskAide
+    public class TaskAide : ITaskAide
     {
         // Fields
         //private IntervalTable intervalTable;
@@ -42,18 +42,20 @@ namespace zCompany.TaskAide
             //    ApplicationData.Current.RoamingSettings,
             //    "IntervalUids",
             //    (uid) => { return this.intervalTable.Get(uid.ToString()) == null; });
-
-            this.session = new Session(1);
         }
 
         // Destructors
         ~TaskAide()
         {
-            this.StopSession();
+
         }
 
         // Properties
+        public ISession ActiveSession { get => this.session ?? this.CreateSession(); }
+
         public ITask ActiveTask { get; private set; }
+
+        public ITaskList TaskList { get => this.taskList; }
 
         public ISystemTime Time { get => this.systemTime; }
 
@@ -70,11 +72,6 @@ namespace zCompany.TaskAide
             return this.taskList.Get(taskId);
         }
 
-        public ITaskList GetTaskList()
-        {
-            return this.taskList;
-        }
-
         public void RemoveTask(ITask task)
         {
             // TODO: prevent removal of active task
@@ -86,33 +83,12 @@ namespace zCompany.TaskAide
             ((Task)task).Name = name;
         }
 
-        public IDateTimeZone StartSession()
+        public void SwitchTasks(ITask task)
         {
-            var dateTime = new DateTimeZone(this.systemTime.UtcNow, this.systemTime.LocalTimeZone);
-            this.timer.Start();
-            this.session.Start(dateTime);
-            return dateTime;
-        }
-
-        public IInterval SwitchTasks(ITask task)
-        {
-            IInterval im = null;
             if ((this.ActiveTask == null) || (task.TID != this.ActiveTask.TID))
             {
                 this.ActiveTask = task;
-                im = this.StartNewInterval(this.ActiveTask, this.session);
-            }
-            return im;
-        }
-
-        public void StopSession()
-        {
-            this.timer.Stop();
-            this.session.Stop();
-            if (this.session.ActiveInterval != null)
-            {
-                this.session.ActiveInterval.Span = this.timer.SecondsElapsed - this.session.ActiveInterval.Start;
-                //this.intervalTable.UpdateSpan(this.session.ActiveInterval);
+                this.StartNewInterval(this.ActiveTask, this.session);
             }
         }
 
@@ -126,31 +102,39 @@ namespace zCompany.TaskAide
         {
             var interval = new Interval(1, task.TID, session.SID);
             //var interval = new Interval(this.intervalUidGenerator.NextUid(), task.UID, session.SID);
+            var priorInterval = (Interval)session.ActiveInterval;
 
             interval.Start = this.timer.SecondsElapsed;
             interval.Span = TimeSpan.Zero;
-            interval.Predecessor = session.ActiveInterval;
+            interval.Predecessor = priorInterval;
             //this.intervalTable.Add(interval);
 
             this.timer.SecondElapsed = () => interval.SecondsIncrement();
 
-            if (session.ActiveInterval != null)
+            if (priorInterval != null)
             {
-                session.ActiveInterval.Span = interval.Start - session.ActiveInterval.Start;
-                session.ActiveInterval.Successor = interval;
-                //this.intervalTable.UpdateSpan(session.ActiveInterval);
+                priorInterval.Span = interval.Start - priorInterval.Start;
+                priorInterval.Successor = interval;
+                //this.intervalTable.UpdateSpan(priorInterval);
             }
 
             session.ActiveInterval = interval;
             return interval;
         }
 
-        private Interval StartNewInterval(ITask task, Session session)
+        private Session CreateSession()
+        {
+            var dateTime = new DateTimeZone(this.systemTime.UtcNow, this.systemTime.LocalTimeZone);
+            this.timer.Start();
+            this.session = new Session(1, dateTime);
+            return this.session;
+        }
+
+        private void StartNewInterval(ITask task, Session session)
         {
             ((Task)task).Associate(session);
             var interval = this.CreateInterval(task, session);
-            this.session.Add(interval);
-            return interval;
+            session.Add(interval);
         }
     }
 }

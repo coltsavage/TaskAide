@@ -9,8 +9,9 @@ namespace zCompany.TaskAide.WindowsApp
     sealed partial class App : Application
     {
         // Class Properties
+        internal static AppEvents Events { get; private set; }
         internal static AppSettings Settings { get; private set; }
-        internal static TaskAide State { get; private set; }
+        internal static ITaskAide State { get; private set; }
 
         // Constructors
         public App()
@@ -47,12 +48,20 @@ namespace zCompany.TaskAide.WindowsApp
 
                 var taskAide = new TaskAide(new Database("Filename=TaskAide.db"), systemTime, new TimerDev(systemTime));
 
+                var appEvents = new AppEvents();
+                appEvents.TaskAdded += (s, args) => taskAide.AddTask(args.Name);
+                appEvents.TaskNameChanged += (s, args) => taskAide.RenameTask(args.Task, args.NewName);
+                appEvents.TaskRemoved += (s, args) => taskAide.RemoveTask(args.Task);
+                appEvents.UserChangedInterval += (s, args) => taskAide.UserChangedInterval(args.Interval, args.StartDelta, args.SpanDelta);
+                appEvents.UserSwitchedTasks += (s, args) => taskAide.SwitchTasks(args.Task);
+
                 if ((e.PreviousExecutionState == ApplicationExecutionState.ClosedByUser) ||
                     (e.PreviousExecutionState == ApplicationExecutionState.Terminated))
                 {
                     // restore previous user session state
                 }
 
+                App.Events = appEvents;
                 App.Settings = new AppSettings();
                 App.State = taskAide;
             }

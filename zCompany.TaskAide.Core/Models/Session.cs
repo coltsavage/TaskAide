@@ -4,7 +4,7 @@ using zCompany.Utilities;
 
 namespace zCompany.TaskAide
 {
-    internal class Session
+    internal class Session : ISession
     {
         // Fields
         private IDateTimeZone dateTime;
@@ -23,7 +23,7 @@ namespace zCompany.TaskAide
         }
 
         // Properties
-        public Interval ActiveInterval { get; set; }
+        public IInterval ActiveInterval { get; set; }
 
         public IDateTimeZone DateTimeStart
         {

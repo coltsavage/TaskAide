@@ -121,8 +121,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IInterval.cs" />
+    <Compile Include="Interfaces\ISession.cs" />
     <Compile Include="Interfaces\ITask.cs" />
     <Compile Include="Interfaces\ITaskList.cs" />
+    <Compile Include="Interfaces\ITaskAide.cs" />
     <Compile Include="Models\Interval.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Session.cs" />

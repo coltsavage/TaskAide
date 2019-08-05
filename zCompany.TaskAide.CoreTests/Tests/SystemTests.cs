@@ -65,7 +65,7 @@ namespace zCompany.TaskAide.Tests
             var controller = new TaskAide(this.db, this.systemTime, this.timer);
 
             // Test
-            var model = controller.GetTaskList();
+            var model = controller.TaskList;
             Assert.NotNull(model);
             Assert.Equal(this.tasks.Count, model.Tasks.Count);
 
@@ -88,7 +88,7 @@ namespace zCompany.TaskAide.Tests
             var controller = new TaskAide(db, this.systemTime, this.timer);
 
             // Test
-            var model = controller.GetTaskList();
+            var model = controller.TaskList;
             Assert.NotNull(model);
             Assert.Empty(model.Tasks);
         }
@@ -102,7 +102,7 @@ namespace zCompany.TaskAide.Tests
 
             // Setup
             var controller = new TaskAide(db, this.systemTime, this.timer);
-            var model = controller.GetTaskList();
+            var model = controller.TaskList;
             var task = model.Tasks[model.Tasks.IndexOf(refTask)];
             Assert.Equal(refTask.Name, task.Name);
 
@@ -126,17 +126,17 @@ namespace zCompany.TaskAide.Tests
 
             // Setup
             var controller = new TaskAide(db, this.systemTime, this.timer);
-            var dateTime = controller.StartSession();
-            Assert.Equal(this.systemTime.UtcNow.UtcTicks, dateTime.UtcTicks);
+            var session = controller.ActiveSession;
+            Assert.Equal(this.systemTime.UtcNow.UtcTicks, session.DateTimeStart.UtcTicks);
 
             // Test
-            var interval = controller.SwitchTasks(refTask);
-            Assert.NotNull(interval);
+            controller.SwitchTasks(refTask);
+            Assert.NotNull(session.ActiveInterval);
             Assert.Equal(refTask, controller.ActiveTask);
 
             // Test: time passage
             this.systemTime.FastForward(timeProgression_mins);
-            Assert.Equal(timeProgression_mins, Math.Ceiling(interval.Span.TotalMinutes));
+            Assert.Equal(timeProgression_mins, Math.Ceiling(session.ActiveInterval.Span.TotalMinutes));
         }
     }
 }
