@@ -116,29 +116,29 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Adapters\IntervalViewModel.cs" />
-    <Compile Include="Adapters\SeriesViewModel.cs" />
+    <Compile Include="Session\IntervalViewModel.cs" />
+    <Compile Include="Session\SeriesViewModel.cs" />
     <Compile Include="Adapters\TaskListViewModel.cs" />
-    <Compile Include="Adapters\TimeLabelProvider.cs" />
+    <Compile Include="Session\TimeLabelProvider.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="ActiveSession\DateTimeConverter.cs" />
     <Compile Include="Interfaces\ITaskListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage\AppSettings.cs" />
-    <Compile Include="Storage\TaskColorChangedArgs.cs" />
-    <Compile Include="Views\DevTimeBar.xaml.cs">
+    <Compile Include="Common\AppSettings.cs" />
+    <Compile Include="Events\TaskColorChangedEventArgs.cs" />
+    <Compile Include="ActiveSession\DevTimeBar.xaml.cs">
       <DependentUpon>DevTimeBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\IntervalDialog.xaml.cs">
+    <Compile Include="Intervals\IntervalDialog.xaml.cs">
       <DependentUpon>IntervalDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="ActiveSession\ActiveSession.xaml.cs">
+      <DependentUpon>ActiveSession.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsDialog.xaml.cs">
-      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    <Compile Include="Tasks\Tasks.xaml.cs">
+      <DependentUpon>Tasks.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -162,19 +162,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\DevTimeBar.xaml">
+    <Page Include="ActiveSession\DevTimeBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\IntervalDialog.xaml">
+    <Page Include="Intervals\IntervalDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainPage.xaml">
+    <Page Include="ActiveSession\ActiveSession.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SettingsDialog.xaml">
+    <Page Include="Tasks\Tasks.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

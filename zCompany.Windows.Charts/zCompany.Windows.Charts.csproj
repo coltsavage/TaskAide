@@ -130,7 +130,7 @@
     <Compile Include="Interfaces\IChartState.cs" />
     <Compile Include="Interfaces\IIntervalViewModel.cs" />
     <Compile Include="Interfaces\ISeriesViewModel.cs" />
-    <Compile Include="IntervalResizedArgs.cs" />
+    <Compile Include="IntervalResizedEventArgs.cs" />
     <Compile Include="IntervalViewModel.cs" />
     <Compile Include="UiAutomationExtensions\UiIntervalChart.cs" />
     <Compile Include="UiAutomationExtensions\UiInterval.cs" />

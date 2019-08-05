@@ -119,7 +119,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\UiApp.cs" />
+    <Compile Include="CustomUiAutomationElements\UiApp.cs" />
     <Compile Include="Adapters\AppiumUiElement.cs" />
     <Compile Include="Adapters\AppiumUiSession.cs" />
     <Compile Include="Fixtures\FiveIntervalAppFixture.cs" />
@@ -185,6 +185,9 @@
       <Project>{fe0cfd7c-29e8-4181-89fd-a3724da02d37}</Project>
       <Name>zCompany.Windows.Charts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
