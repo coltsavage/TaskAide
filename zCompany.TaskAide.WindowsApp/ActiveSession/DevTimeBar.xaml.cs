@@ -22,7 +22,7 @@ namespace zCompany.TaskAide.WindowsApp
         private void FastForwardButton_Click(object sender, RoutedEventArgs e)
         {
             int mins = Convert.ToInt32(this.JumpAmountTextBox.Text);
-            this.SystemTime.FastForward(mins);
+            this.SystemTime.FastForward(TimeSpan.FromMinutes(mins));
             this.JumpAmountTextBox.Text = "0";
         }
 
@@ -30,7 +30,7 @@ namespace zCompany.TaskAide.WindowsApp
         {
             this.JumpAmountTextBox.SelectAll();
         }
-
+        
         private void PauseResumeTimeToggle_Click(object sender, RoutedEventArgs e)
         {
             if ((string)this.PauseResumeTimeToggle.Content == "Pause")
@@ -53,6 +53,22 @@ namespace zCompany.TaskAide.WindowsApp
         private void ReduceRateButton_Click(object sender, RoutedEventArgs e)
         {
             this.SystemTime.SlowDown();
+        }
+
+        private void RewindButton_Click(object sender, RoutedEventArgs e)
+        {
+            int mins = Convert.ToInt32(this.JumpAmountTextBox.Text);
+            this.SystemTime.Rewind(TimeSpan.FromMinutes(mins));
+            this.JumpAmountTextBox.Text = "0";
+        }
+
+        private void RemoveLastIntervalButton_Click(object sender, RoutedEventArgs args)
+        {
+            var activeInterval = App.State.ActiveSession.ActiveInterval;
+            if (activeInterval != null)
+            {
+                this.SystemTime.Rewind(activeInterval.Span);
+            }            
         }
     }
 }

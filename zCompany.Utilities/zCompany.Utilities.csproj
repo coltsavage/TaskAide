@@ -126,6 +126,7 @@
     <Compile Include="SystemTime\SystemTimeDev.cs" />
     <Compile Include="SystemTime\ISystemTime.cs" />
     <Compile Include="SystemTime\SystemTime.cs" />
+    <Compile Include="SystemTime\RewoundEventArgs.cs" />
     <Compile Include="Timer\TimerDev.cs" />
     <Compile Include="Timer\ITimer.cs" />
     <Compile Include="UidGenerator\UidGenerator.cs" />

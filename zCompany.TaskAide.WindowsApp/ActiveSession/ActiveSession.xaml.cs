@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -11,13 +13,21 @@ namespace zCompany.TaskAide.WindowsApp
 {
     internal sealed partial class ActiveSession : Page
     {
+        // Fields
+        private Dictionary<int, int> intervalLookup;
+
         // Constructors
         public ActiveSession()
         {
             this.InitializeComponent();
+
+            this.intervalLookup = new Dictionary<int, int>();
             this.TaskListViewModel = new TaskListViewModel(App.State.TaskList);
 
+            ((INotifyCollectionChanged)App.State.ActiveSession.Intervals).CollectionChanged += OnIntervalCollectionChanged;
+
             IDateTimeZone dateTime = App.State.ActiveSession.DateTimeStart;
+            ((SystemTimeDev)App.State.Time).ActiveSessionStartTime = dateTime.UtcTicks;
             this.Chart.ConfigureAxisLabels(new TimeLabelProvider(dateTime, 30));
         }
 
@@ -25,7 +35,7 @@ namespace zCompany.TaskAide.WindowsApp
         public ITaskListViewModel TaskListViewModel { get; set; }
 
         // Event Handlers
-        private void AddTaskFlyout_Closed(object sender, object e)
+        private void AddTaskFlyout_Closed(object sender, object args)
         {
             AddTaskFlyoutTextBox.Text = string.Empty;
         }
@@ -89,31 +99,45 @@ namespace zCompany.TaskAide.WindowsApp
             await config.ShowAsync();
         }
 
+        private void OnIntervalCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            if (args.Action == NotifyCollectionChangedAction.Add)
+            {
+                this.AddIntervalToChart((IInterval)args.NewItems[0]);
+            }
+            if (args.Action == NotifyCollectionChangedAction.Remove)
+            {
+                this.RemoveIntervalFromChart((IInterval)args.OldItems[0]);
+            }
+        }
+
         private void TaskList_SelectionChanged(object sender, SelectionChangedEventArgs args)
         {
             if (((ComboBox)sender).SelectedItem != null)
             {
-                var task = (ITask)args.AddedItems.First();
-                App.Events.Raise(new UserSwitchedTasksEventArgs(task));
-                var interval = App.State.ActiveSession.ActiveInterval;
-                if (interval != null)
-                {
-                    this.AddIntervalToChart(interval, task);
-                }
+                App.Events.Raise(new UserSwitchedTasksEventArgs((ITask)args.AddedItems.First()));
             }
         }
 
         // Helpers
-        private void AddIntervalToChart(IInterval interval, ITask task)
+        private void AddIntervalToChart(IInterval interval)
         {
             var intervalViewModel = new IntervalViewModel(interval);
-            bool success = this.Chart.AddInterval(interval.TaskId, intervalViewModel);
-            if (!success)
+            var intervalNumber = this.Chart.AddInterval(interval.TaskId, intervalViewModel);
+            if (intervalNumber < 0)
             {
+                var task = App.State.GetTask(interval.TaskId);
                 Color color = App.Settings.GetTaskColor(task);
                 this.Chart.AddSeries(task.TID, new SeriesViewModel(task.Name, color));
-                this.Chart.AddInterval(interval.TaskId, intervalViewModel);
+                intervalNumber = this.Chart.AddInterval(interval.TaskId, intervalViewModel);
             }
+            this.intervalLookup[interval.IID] = intervalNumber;
+        }
+
+        private void RemoveIntervalFromChart(IInterval interval)
+        {
+            this.Chart.RemoveInterval(this.intervalLookup[interval.IID]);
+            this.TaskListView.SelectedItem = App.State.ActiveTask;
         }
     }
 }

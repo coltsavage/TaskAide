@@ -11,9 +11,6 @@ namespace zCompany.Windows.Charts
 {
     internal sealed partial class Interval : UserControl, Interval.Resizer.ViewWidthProvider
     {
-        // Class Fields
-        private static int counter = 0;
-
         // Fields
         private IChartState chartState;
         private Resizer resizer;
@@ -24,24 +21,17 @@ namespace zCompany.Windows.Charts
         {
             this.InitializeComponent();
 
-            this.InstanceNumber = counter++;
             this.ViewModel = vm;
             this.chartState = chartState;
 
             this.resizer = new Resizer(this, chartState);
         }
 
-        // Destructors
-        ~Interval()
-        {
-
-        }
-
         // Events
         public event EventHandler<IntervalResizedEventArgs> IntervalResized;
 
         // Properties
-        public int InstanceNumber { get; private set; }
+        public int InstanceNumber { get; set; }
 
         private bool isSelected;
         public bool IsSelected

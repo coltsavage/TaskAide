@@ -135,7 +135,7 @@ namespace zCompany.TaskAide.Tests
             Assert.Equal(refTask, controller.ActiveTask);
 
             // Test: time passage
-            this.systemTime.FastForward(timeProgression_mins);
+            this.systemTime.FastForward(TimeSpan.FromMinutes(timeProgression_mins));
             Assert.Equal(timeProgression_mins, Math.Ceiling(session.ActiveInterval.Span.TotalMinutes));
         }
     }

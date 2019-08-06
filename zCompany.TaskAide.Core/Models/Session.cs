@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using zCompany.Utilities;
 
 namespace zCompany.TaskAide
@@ -8,18 +8,16 @@ namespace zCompany.TaskAide
     {
         // Fields
         private IDateTimeZone dateTime;
+        private ObservableCollection<IInterval> intervals;        
 
         // Constructors
-        public Session(int sid)
-        {
-            this.sid = sid;
-            this.Intervals = new List<Interval>();
-        }
         public Session(int sid, IDateTimeZone dateTime)
         {
             this.sid = sid;
             this.dateTime = dateTime;
-            this.Intervals = new List<Interval>();
+
+            this.intervals = new ObservableCollection<IInterval>();
+            this.Intervals = new ReadOnlyObservableCollection<IInterval>(this.intervals);
         }
 
         // Properties
@@ -30,22 +28,7 @@ namespace zCompany.TaskAide
             get { return this.dateTime; }
         }
 
-        private List<Interval> intervals;
-        public List<Interval> Intervals
-        {
-            get { return this.intervals; }
-            set
-            {
-                this.intervals = value;
-            }
-        }
-
-        public bool IsNew
-        {
-            get => dateTime == null;
-        }
-
-        public bool IsRunning { get; set; }
+        public ReadOnlyObservableCollection<IInterval> Intervals { get; private set; }
 
         private int sid;
         public int SID
@@ -69,24 +52,14 @@ namespace zCompany.TaskAide
         }
 
         // Methods
-        public void Add(Interval interval)
+        public void Pop()
         {
-            this.Intervals.Add(interval);
+            this.intervals.Remove(this.ActiveInterval);
         }
 
-        public void Resume(IDateTimeZone dateTime)
+        public void Push(Interval interval)
         {
-
-        }
-
-        public void Start(IDateTimeZone dateTime)
-        {
-            this.dateTime = dateTime;
-        }
-
-        public void Stop()
-        {
-
+            this.intervals.Add(interval);
         }
     }
 }

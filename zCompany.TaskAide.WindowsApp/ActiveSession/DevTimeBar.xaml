@@ -58,6 +58,14 @@
             Click="FastForwardButton_Click">
         </Button>
 
+        <Button
+            x:Name="RewindButton"
+            Margin="8,0,0,0"
+            Width="32"
+            Content="-"
+            Click="RewindButton_Click">
+        </Button>
+
         <TextBox
             x:Name="JumpAmountTextBox"
             Margin="8,0"
@@ -66,5 +74,12 @@
             Text="0"
             GotFocus="JumpAmountTextBox_GotFocus">            
         </TextBox>
+
+        <Button
+            x:Name="RemoveLastIntervalButton"
+            Margin="40,0,0,0"
+            Content="- Last Interval"
+            Click="RemoveLastIntervalButton_Click">
+        </Button>
     </StackPanel>
 </UserControl>

@@ -47,6 +47,7 @@ namespace zCompany.TaskAide.WindowsApp
                 var systemTime = new SystemTimeDev(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"));
 
                 var taskAide = new TaskAide(new Database("Filename=TaskAide.db"), systemTime, new TimerDev(systemTime));
+                systemTime.Rewound += taskAide.OnSystemRewound;
 
                 var appEvents = new AppEvents();
                 appEvents.TaskAdded += (s, args) => taskAide.AddTask(args.Name);

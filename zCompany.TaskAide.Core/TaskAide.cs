@@ -8,6 +8,7 @@ namespace zCompany.TaskAide
     public class TaskAide : ITaskAide
     {
         // Fields
+        private int intervalTempUidGenerator;
         //private IntervalTable intervalTable;
         //private UidGenerator intervalUidGenerator;
         private TaskList taskList;
@@ -97,10 +98,47 @@ namespace zCompany.TaskAide
             ((Interval)interval).UserChanged(startDelta, spanDelta);
         }
 
+        // Event Handlers
+        public void OnSystemRewound(object sender, RewoundEventArgs args)
+        {
+            var amount = args.Amount;
+            var activeInterval = (Interval)this.session.ActiveInterval;
+
+            while ((activeInterval != null) && (amount.TotalSeconds > 0))
+            {
+                if (activeInterval.Span > amount)
+                {
+                    activeInterval.Span -= amount;
+                    break;
+                }
+                else
+                {
+                    amount -= activeInterval.Span;
+
+                    if (activeInterval.Predecessor != null)
+                    {
+                        activeInterval = activeInterval.Predecessor;
+                        activeInterval.Successor = null;
+                        this.timer.SecondElapsed = () => activeInterval.SecondsIncrement();
+                        this.ActiveTask = this.GetTask(activeInterval.TaskId);
+                    }
+                    else
+                    {
+                        activeInterval = null;
+                        this.timer.SecondElapsed = null;
+                        this.ActiveTask = null;
+                    }
+
+                    this.session.Pop();
+                    this.session.ActiveInterval = activeInterval;
+                }
+            }
+        }
+
         // Helpers
         private Interval CreateInterval(ITask task, Session session)
         {
-            var interval = new Interval(1, task.TID, session.SID);
+            var interval = new Interval(++intervalTempUidGenerator, task.TID, session.SID);
             //var interval = new Interval(this.intervalUidGenerator.NextUid(), task.UID, session.SID);
             var priorInterval = (Interval)session.ActiveInterval;
 
@@ -134,7 +172,7 @@ namespace zCompany.TaskAide
         {
             ((Task)task).Associate(session);
             var interval = this.CreateInterval(task, session);
-            session.Add(interval);
+            session.Push(interval);
         }
     }
 }

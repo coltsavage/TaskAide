@@ -5,15 +5,16 @@ namespace zCompany.Utilities
     public class TimerDev : ITimer
     {
         // Fields
-        int counter;
-        bool listening;
-        SystemTimeDev systemTime;
+        private int counter;
+        private bool listening;
+        private readonly SystemTimeDev systemTime;
 
         // Constructors
         public TimerDev(SystemTimeDev systemTime)
         {
             this.systemTime = systemTime;
             this.systemTime.SecondElapsed += this.OnSecondElapsed;
+            this.systemTime.Rewound += this.OnSystemRewound;
             this.counter = 0;
         }
 
@@ -21,6 +22,7 @@ namespace zCompany.Utilities
         ~TimerDev()
         {
             this.systemTime.SecondElapsed -= this.OnSecondElapsed;
+            this.systemTime.Rewound -= this.OnSystemRewound;
         }
 
         // Delegates
@@ -51,6 +53,12 @@ namespace zCompany.Utilities
                 this.counter++;
                 this.SecondElapsed?.Invoke();
             }
+        }
+
+        public void OnSystemRewound(object sender, RewoundEventArgs args)
+        {
+            var amount = args.Amount;
+            this.counter -= (int)args.Amount.TotalSeconds;
         }
     }
 }

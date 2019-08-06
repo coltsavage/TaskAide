@@ -9,5 +9,7 @@ namespace zCompany.TaskAide
         IInterval ActiveInterval { get; }
 
         IDateTimeZone DateTimeStart { get; }
+
+        ReadOnlyObservableCollection<IInterval> Intervals { get; }
     }
 }
