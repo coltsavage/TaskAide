@@ -8,20 +8,20 @@ using Windows.UI.Xaml.Media;
 
 namespace zCompany.TaskAide.WindowsApp
 {
-    internal sealed partial class Tasks : ContentDialog, INotifyPropertyChanged
+    public sealed partial class Tasks : ContentDialog, INotifyPropertyChanged
     {
         // Fields
         private AppSettings appSettings;
         
         // Constructors
-        public Tasks(ITaskListViewModel taskListViewModel, ITask currentTask, AppSettings appSettings)
+        public Tasks()
         {
             this.InitializeComponent();
 
-            this.appSettings = appSettings;
+            this.appSettings = App.Settings;
 
-            this.TaskListViewModel = taskListViewModel;
-            this.SelectedTaskOnOpen = currentTask;
+            this.TaskListViewModel = new TaskListViewModel(App.State.TaskList);
+            this.SelectedTaskOnOpen = App.State.ActiveTask;
 
             if (this.SelectedTaskOnOpen == null)
             {
@@ -34,23 +34,23 @@ namespace zCompany.TaskAide.WindowsApp
         }
 
         // Delegates
-        public Action<ITask, string> TaskNameChanged;
+        internal Action<ITask, string> TaskNameChanged;
 
-        public Action<ITask> TaskRemoved;
+        internal Action<ITask> TaskRemoved;
 
         // Events
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public event EventHandler<TaskColorChangedEventArgs> TaskColorChanged;
+        internal event EventHandler<TaskColorChangedEventArgs> TaskColorChanged;
 
         // Properties
-        public Color SelectedTaskColor
+        internal Color SelectedTaskColor
         {
             get { return this.selectedTaskColorBrush.Color; }
         }
 
         private SolidColorBrush selectedTaskColorBrush;
-        public SolidColorBrush SelectedTaskColorBrush
+        internal SolidColorBrush SelectedTaskColorBrush
         {
             get { return this.selectedTaskColorBrush; }
             set
@@ -61,9 +61,9 @@ namespace zCompany.TaskAide.WindowsApp
             }
         }
 
-        public ITask SelectedTaskOnOpen { get; }
+        internal ITask SelectedTaskOnOpen { get; }
 
-        public ITaskListViewModel TaskListViewModel { get; }
+        internal ITaskListViewModel TaskListViewModel { get; }
 
         // Event Handlers
         private void ColorCancel_Click(object sender, RoutedEventArgs args)

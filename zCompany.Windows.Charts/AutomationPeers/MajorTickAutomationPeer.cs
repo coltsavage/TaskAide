@@ -6,12 +6,14 @@ namespace zCompany.Windows.Charts
 {
     internal class MajorTickAutomationPeer : FrameworkElementAutomationPeer
     {
+        // Constructors
         public MajorTickAutomationPeer(FrameworkElement owner)
             : base(owner)
         {
 
         }
 
+        // Methods
         protected override string GetAutomationIdCore()
         {
             var instance = ((MajorTick)base.Owner).InstanceNumber;
@@ -20,7 +22,7 @@ namespace zCompany.Windows.Charts
 
         protected override string GetClassNameCore()
         {
-            return "MajorTick";
+            return typeof(MajorTick).Name;
         }
 
         protected override string GetNameCore()

@@ -27,9 +27,9 @@ namespace zCompany.UiAutomation
         }
 
         // Destructors
-        public virtual void Dispose()
+        public void Dispose()
         {
-
+            this.External.Dispose();
         }
 
         // Enums
@@ -65,11 +65,6 @@ namespace zCompany.UiAutomation
         public void DoubleClick()
         {
             this.External.DoubleClick();
-        }
-
-        public void Drag(Point start, Point offset)
-        {
-            this.External.Drag(start, offset);
         }
 
         public void EnterText(string text)

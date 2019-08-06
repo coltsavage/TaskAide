@@ -4,7 +4,6 @@ using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using zCompany.UiAutomation;
 
 namespace zCompany.TaskAide.UiTests
@@ -12,8 +11,8 @@ namespace zCompany.TaskAide.UiTests
     internal class AppiumUiElement : IUiElement
     {
         // Fields
-        AppiumWebElement uiElement;
-        AppiumUiSession uiSession;
+        private AppiumWebElement uiElement;
+        private AppiumUiSession uiSession;
 
         // Constructors
         public AppiumUiElement(AppiumWebElement element, AppiumUiSession uiSession)
@@ -23,7 +22,7 @@ namespace zCompany.TaskAide.UiTests
         }
 
         // Destructors
-        public virtual void Dispose()
+        public void Dispose()
         {
 
         }
@@ -58,19 +57,6 @@ namespace zCompany.TaskAide.UiTests
             new Actions(this.uiSession.Driver)
                 .MoveToElement(this.uiElement)
                 .DoubleClick()
-                .Perform();
-        }
-
-        public void Drag(Point start, Point offset)
-        {
-            new Actions(this.uiSession.Driver)
-                .MoveToElement(this.uiElement, start.X, start.Y)
-                .Perform();
-
-            new Actions(this.uiSession.Driver)
-                .ClickAndHold()
-                .MoveByOffset(offset.X, offset.Y)
-                .Release()
                 .Perform();
         }
 

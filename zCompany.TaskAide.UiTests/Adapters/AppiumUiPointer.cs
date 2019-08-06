@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using zCompany.UiAutomation;
 
 namespace zCompany.TaskAide.UiTests
@@ -22,6 +23,9 @@ namespace zCompany.TaskAide.UiTests
         {
 
         }
+
+        // Properties
+        public Point AbsolutePosition { get => AppiumUiPointer.ScreenCursor.Position; }
 
         // Methods
         public IUiPointer Click()
@@ -81,6 +85,32 @@ namespace zCompany.TaskAide.UiTests
                 .MoveToElement(((AppiumUiElement)element.External).AppiumElement, offset.X, offset.Y)
                 .Perform();
             return this;
+        }
+
+        // Classes
+        private static class ScreenCursor
+        {
+            // Class Properties
+            public static Point Position
+            {
+                get
+                {
+                    var p = new User32Point();
+                    ScreenCursor.GetCursorPos(ref p);
+                    return new Point(p.x, p.y);
+                }
+            }
+            
+            // Structs
+            private struct User32Point
+            {
+                public int x;
+                public int y;
+            }
+
+            // Helpers
+            [DllImport("user32.dll")]
+            private static extern int GetCursorPos(ref User32Point pointRef);
         }
     }
 }

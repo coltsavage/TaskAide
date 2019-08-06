@@ -29,4 +29,11 @@ namespace zCompany.TaskAide.UiTests
 
         internal Common Common { get; private set; }
     }
+
+
+    [CollectionDefinition(UiTestsCollectionFixture.Name)]
+    public class UiTestsCollectionFixture : ICollectionFixture<AppFixture>
+    {
+        public const string Name = "UiTestsCollection";
+    }
 }

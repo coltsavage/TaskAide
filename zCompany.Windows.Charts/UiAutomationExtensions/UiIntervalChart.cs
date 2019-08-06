@@ -1,13 +1,14 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using zCompany.Windows.Charts;
 
 namespace zCompany.UiAutomation
 {
     public class UiChart : UiElement
     {
         // Class Fields
-        public static string ClassName = "IntervalChart";
+        public static string ClassName = typeof(IntervalChart).Name;
 
         // Fields
         private VolatileList<UiInterval> intervals;
@@ -22,13 +23,7 @@ namespace zCompany.UiAutomation
                 (item) => new UiInterval(item, this));
 
             this.originLabel = new VolatileState<UiElement>(
-                () => new UiElement(base.Find(By.ClassName("TimeAxis")).Find("MajorTick#0")));
-        }
-
-        // Destructors
-        public override void Dispose()
-        {
-            base.Dispose();
+                () => new UiElement(base.Find(By.ClassName(typeof(TimeAxis).Name)).Find("MajorTick#0")));
         }
 
         // Properties

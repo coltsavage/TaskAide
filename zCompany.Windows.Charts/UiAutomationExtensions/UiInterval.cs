@@ -1,11 +1,12 @@
 ﻿using System;
+using zCompany.Windows.Charts;
 
 namespace zCompany.UiAutomation
 {
     public class UiInterval : UiElement
     {
         // Class Fields
-        public static string ClassName = "Interval";
+        public static string ClassName = typeof(Interval).Name;
 
         // Fields
         private VolatileState<TimeSpan> start;
@@ -19,12 +20,6 @@ namespace zCompany.UiAutomation
 
             this.start = new VolatileState<TimeSpan>(this.GetStart);
             this.span = new VolatileState<TimeSpan>(this.GetSpan);
-        }
-
-        // Destructors
-        public override void Dispose()
-        {
-            base.Dispose();
         }
 
         // Properties

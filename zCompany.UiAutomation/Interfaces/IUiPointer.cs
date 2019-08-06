@@ -5,6 +5,9 @@ namespace zCompany.UiAutomation
 {
     public interface IUiPointer : IDisposable
     {
+        // Properties
+        Point AbsolutePosition { get; }
+
         // Methods
         IUiPointer Click();
 

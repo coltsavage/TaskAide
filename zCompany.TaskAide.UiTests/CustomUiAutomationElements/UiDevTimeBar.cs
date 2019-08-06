@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
+using zCompany.TaskAide.WindowsApp;
 using zCompany.UiAutomation;
 
 namespace zCompany.TaskAide.UiTests
@@ -7,7 +8,7 @@ namespace zCompany.TaskAide.UiTests
     internal class UiDevTimeBar : UiElement
     {
         // Class Fields
-        public static string ClassName = "DevTimeBar";
+        public static string ClassName = typeof(DevTimeBar).Name;
 
         // Fields
         private VolatileState<UiElement> fastForwardButton;

@@ -12,7 +12,7 @@ using zCompany.Windows.Charts;
 
 namespace zCompany.TaskAide.WindowsApp
 {
-    internal sealed partial class ActiveSession : Page
+    public sealed partial class ActiveSession : Page
     {
         // Fields
         private Dictionary<int, int> intervalLookup;
@@ -33,7 +33,7 @@ namespace zCompany.TaskAide.WindowsApp
         }
 
         // Properties
-        public ITaskListViewModel TaskListViewModel { get; set; }
+        internal ITaskListViewModel TaskListViewModel { get; set; }
 
         // Event Handlers
         private void AddTaskFlyout_Closed(object sender, object args)
@@ -62,7 +62,7 @@ namespace zCompany.TaskAide.WindowsApp
 
         private async void ConfigureButton_Click(object sender, RoutedEventArgs args)
         {
-            Tasks config = new Tasks(this.TaskListViewModel, App.State.ActiveTask, App.Settings);
+            Tasks config = new Tasks();
 
             config.TaskNameChanged =
                 (task, newName) =>

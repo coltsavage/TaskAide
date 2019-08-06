@@ -6,7 +6,7 @@ using zCompany.Utilities;
 
 namespace zCompany.TaskAide.WindowsApp
 {
-    internal sealed partial class DevTimeBar : UserControl
+    public sealed partial class DevTimeBar : UserControl
     {
         // Constructors
         public DevTimeBar()
@@ -17,7 +17,7 @@ namespace zCompany.TaskAide.WindowsApp
         }
 
         // Properties
-        public SystemTimeDev SystemTime { get => (SystemTimeDev)App.State.Time; }
+        internal SystemTimeDev SystemTime { get => (SystemTimeDev)App.State.Time; }
 
         // Event Handlers
         private void FastForwardButton_Click(object sender, RoutedEventArgs e)

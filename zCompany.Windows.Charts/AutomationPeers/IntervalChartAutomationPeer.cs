@@ -6,12 +6,14 @@ namespace zCompany.Windows.Charts
 {
     internal class IntervalChartAutomationPeer : FrameworkElementAutomationPeer
     {
+        // Constructors
         public IntervalChartAutomationPeer(FrameworkElement owner)
             : base(owner)
         {
 
         }
 
+        // Methods
         protected override string GetAutomationIdCore()
         {
             return "Chart";
@@ -19,7 +21,7 @@ namespace zCompany.Windows.Charts
 
         protected override string GetClassNameCore()
         {
-            return "IntervalChart";
+            return typeof(IntervalChart).Name;
         }
 
         protected override string GetNameCore()

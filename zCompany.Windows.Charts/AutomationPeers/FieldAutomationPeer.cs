@@ -6,12 +6,14 @@ namespace zCompany.Windows.Charts
 {
     internal class FieldAutomationPeer : FrameworkElementAutomationPeer
     {
+        // Constructors
         public FieldAutomationPeer(FrameworkElement owner)
             : base(owner)
         {
 
         }
 
+        // Methods
         protected override string GetAutomationIdCore()
         {
             return "Field";
@@ -19,7 +21,7 @@ namespace zCompany.Windows.Charts
 
         protected override string GetClassNameCore()
         {
-            return "Field";
+            return typeof(Field).Name;
         }
 
         protected override string GetNameCore()

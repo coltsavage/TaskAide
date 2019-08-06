@@ -29,8 +29,6 @@ namespace zCompany.UiAutomation
 
         void DoubleClick();
 
-        void Drag(Point start, Point offset);
-
         void EnterText(string text);
 
         IUiElement Find(By by);

@@ -7,7 +7,8 @@ using zCompany.UnitTestExtensions;
 
 namespace zCompany.TaskAide.UiTests
 {
-    public class DevTimeBarTests : IClassFixture<AppFixture>, IDisposable
+    [Collection(UiTestsCollectionFixture.Name)]
+    public class DevTimeBarTests : IDisposable
     {
         // Fields
         private readonly UiApp app;

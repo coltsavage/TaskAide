@@ -6,12 +6,14 @@ namespace zCompany.Windows.Charts
 {
     internal class TimeAxisAutomationPeer : FrameworkElementAutomationPeer
     {
+        // Constructors
         public TimeAxisAutomationPeer(FrameworkElement owner)
             : base(owner)
         {
 
         }
 
+        // Methods
         protected override string GetAutomationIdCore()
         {
             return "TimeAxis";
@@ -19,7 +21,7 @@ namespace zCompany.Windows.Charts
 
         protected override string GetClassNameCore()
         {
-            return "TimeAxis";
+            return typeof(TimeAxis).Name;
         }
 
         protected override string GetNameCore()
