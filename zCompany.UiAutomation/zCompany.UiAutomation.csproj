@@ -121,6 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IUiElement.cs" />
+    <Compile Include="Interfaces\IUiPointer.cs" />
     <Compile Include="Interfaces\IUiSession.cs" />
     <Compile Include="Models\UiComboBox.cs" />
     <Compile Include="Models\UiElement.cs" />

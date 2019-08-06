@@ -8,6 +8,7 @@ namespace zCompany.TaskAide.UiTests
     internal class UiApp : IDisposable
     {
         // Fields
+        private VolatileState<UiActiveSession> activeSession;
         private VolatileState<UiChart> chart;
         private IUiSession externalUiSession;
         private VolatileState<UiComboBox> taskSelector;
@@ -16,6 +17,9 @@ namespace zCompany.TaskAide.UiTests
         public UiApp(IUiSession uiSession)
         {
             this.externalUiSession = uiSession;
+
+            this.activeSession = new VolatileState<UiActiveSession>(
+                () => new UiActiveSession(this.externalUiSession.Find(By.ClassName(UiActiveSession.ClassName))));
 
             this.chart = new VolatileState<UiChart>(
                 () => new UiChart(this.externalUiSession.Find(By.ClassName(UiChart.ClassName))));
@@ -31,6 +35,8 @@ namespace zCompany.TaskAide.UiTests
         }
 
         // Properties
+        public UiActiveSession ActiveSession { get => this.activeSession.Value; }
+
         public UiChart Chart { get => this.chart.Value; }
 
         public UiComboBox TaskSelector { get => this.taskSelector.Value; }
@@ -42,7 +48,7 @@ namespace zCompany.TaskAide.UiTests
             var dateTime = DateTimeOffset.Parse(systemTime.Text);
             return dateTime - new TimeSpan(0, 0, dateTime.Second);
         }
-        
+
         public void Progress(int minutes)
         {
             this.externalUiSession.Find("JumpAmountTextBox").EnterText(minutes.ToString());
@@ -51,6 +57,7 @@ namespace zCompany.TaskAide.UiTests
 
         public void Refresh()
         {
+            this.activeSession.Invalidate();
             this.chart.Invalidate();
             this.taskSelector.Invalidate();
         }

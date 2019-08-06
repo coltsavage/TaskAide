@@ -116,6 +116,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AutomationPeers\ActiveSessionAutomationPeer.cs" />
+    <Compile Include="AutomationPeers\DevTimeBarAutomationPeer.cs" />
     <Compile Include="Events\AppEvents.cs" />
     <Compile Include="Events\TaskAddedEventArgs.cs" />
     <Compile Include="Events\TaskNameChangedEventArgs.cs" />

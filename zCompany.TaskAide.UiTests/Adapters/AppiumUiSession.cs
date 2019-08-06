@@ -18,16 +18,21 @@ namespace zCompany.TaskAide.UiTests
             appCapabilities.SetCapability("newCommandTimeout", 180);
 
             this.Driver = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723/wd/hub"), appCapabilities);
+
+            this.Pointer = new AppiumUiPointer(this.Driver);
         }
 
         // Destructors
         public void Dispose()
         {
-            this.Driver.Quit();
+            this.Pointer?.Dispose();
+            this.Driver?.Quit();
         }
 
         // Properties
         public WindowsDriver<WindowsElement> Driver { get; private set; }
+
+        public IUiPointer Pointer { get; private set; }
 
         // Methods
         public IUiElement Find(By by)

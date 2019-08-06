@@ -8,7 +8,6 @@ namespace zCompany.UiAutomation
     public class UiElement : IUiElement
     {
         // Fields
-        private IUiElement External;
         private VolatileState<int> height;
         private VolatileState<string> text;
         private VolatileState<int> width;
@@ -41,9 +40,13 @@ namespace zCompany.UiAutomation
         }
 
         // Properties
+        public IUiElement External { get; private set; }
+
         public int Height { get => this.height.Value; }
 
         public string Name { get => this.text.Value; }
+
+        public IUiPointer Pointer { get => this.External.Pointer; }
 
         public string Text { get => this.text.Value; }
 
@@ -125,7 +128,7 @@ namespace zCompany.UiAutomation
                     break;
             }
 
-            this.Drag(start_pixels, offset_pixels);
+            this.Pointer.MoveTo(this.External, start_pixels).Drag(offset_pixels);
         }
     }
 }

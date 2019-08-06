@@ -8,9 +8,13 @@ namespace zCompany.UiAutomation
     public interface IUiElement : IDisposable
     {
         // Properties
+        IUiElement External { get; }
+
         int Height { get; }
 
         string Name { get; }
+
+        IUiPointer Pointer { get; }
 
         string Text { get; }
 

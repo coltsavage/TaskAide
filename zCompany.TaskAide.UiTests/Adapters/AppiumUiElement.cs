@@ -29,9 +29,15 @@ namespace zCompany.TaskAide.UiTests
         }
 
         // Properties
+        internal AppiumWebElement AppiumElement { get => uiElement; }
+
+        public IUiElement External { get => this; }
+
         public int Height { get => this.uiElement.Size.Height; }
 
         public string Name { get => this.uiElement.Text; }
+
+        public IUiPointer Pointer { get => this.uiSession.Pointer; }
 
         public string Text { get => this.uiElement.Text; }
 

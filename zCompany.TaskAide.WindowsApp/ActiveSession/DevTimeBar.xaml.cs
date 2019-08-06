@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using zCompany.Utilities;
 
@@ -30,7 +31,12 @@ namespace zCompany.TaskAide.WindowsApp
         {
             this.JumpAmountTextBox.SelectAll();
         }
-        
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new DevTimeBarAutomationPeer(this);
+        }
+
         private void PauseResumeTimeToggle_Click(object sender, RoutedEventArgs e)
         {
             if ((string)this.PauseResumeTimeToggle.Content == "Pause")

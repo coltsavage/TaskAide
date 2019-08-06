@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using zCompany.Utilities;
@@ -97,6 +98,11 @@ namespace zCompany.TaskAide.WindowsApp
                 };
 
             await config.ShowAsync();
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new ActiveSessionAutomationPeer(this);
         }
 
         private void OnIntervalCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
