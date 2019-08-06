@@ -5,43 +5,20 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 namespace zCompany.TaskAide.WindowsApp
 {
-    public sealed partial class Tasks : ContentDialog, INotifyPropertyChanged
+    public sealed partial class Tasks : Page, INotifyPropertyChanged
     {
-        // Fields
-        private AppSettings appSettings;
-        
         // Constructors
         public Tasks()
         {
             this.InitializeComponent();
-
-            this.appSettings = App.Settings;
-
-            this.TaskListViewModel = new TaskListViewModel(App.State.TaskList);
-            this.SelectedTaskOnOpen = App.State.ActiveTask;
-
-            if (this.SelectedTaskOnOpen == null)
-            {
-                this.SelectedTaskColorBrush = new SolidColorBrush(Colors.White);
-            }
-            else
-            {
-                this.SelectedTaskColorBrush = new SolidColorBrush(this.appSettings.GetTaskColor(this.SelectedTaskOnOpen));
-            }
         }
-
-        // Delegates
-        internal Action<ITask, string> TaskNameChanged;
-
-        internal Action<ITask> TaskRemoved;
 
         // Events
         public event PropertyChangedEventHandler PropertyChanged;
-
-        internal event EventHandler<TaskColorChangedEventArgs> TaskColorChanged;
 
         // Properties
         internal Color SelectedTaskColor
@@ -61,9 +38,9 @@ namespace zCompany.TaskAide.WindowsApp
             }
         }
 
-        internal ITask SelectedTaskOnOpen { get; }
+        internal ITask SelectedTaskOnOpen { get; private set; }
 
-        internal ITaskListViewModel TaskListViewModel { get; }
+        internal ITaskListViewModel TaskListViewModel { get; private set; }
 
         // Event Handlers
         private void ColorCancel_Click(object sender, RoutedEventArgs args)
@@ -77,17 +54,17 @@ namespace zCompany.TaskAide.WindowsApp
             Color color = TaskColorPicker.Color;
 
             this.SelectedTaskColorBrush = new SolidColorBrush(color);
-            this.appSettings.SetTaskColor(task, color);
+            App.Settings.SetTaskColor(task, color);
 
-            this.TaskColorChanged?.Invoke(this, new TaskColorChangedEventArgs(task, color));
+            App.Events.Raise(new TaskColorChangedEventArgs(task, color));
             TaskColorFlyout.Hide();
         }
 
         private void DeleteRequestor_Click(object sender, RoutedEventArgs args)
         {
             var task = (ITask)DialogTaskListView.SelectedItem;
-            this.appSettings.RemoveTask(task);
-            this.TaskRemoved?.Invoke(task);
+            App.Settings.RemoveTask(task);
+            App.Events.Raise(new TaskRemovedEventArgs(task));
             DialogTaskListView.SelectedIndex = 0;
         }
 
@@ -99,8 +76,23 @@ namespace zCompany.TaskAide.WindowsApp
         {
             if (DialogTaskListView.SelectedValue != null)
             {
-                Color color = this.appSettings.GetTaskColor((ITask)DialogTaskListView.SelectedItem);
+                Color color = App.Settings.GetTaskColor((ITask)DialogTaskListView.SelectedItem);
                 this.SelectedTaskColorBrush = new SolidColorBrush(color);
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs args)
+        {
+            this.TaskListViewModel = new TaskListViewModel(App.State.TaskList);
+            this.SelectedTaskOnOpen = App.State.ActiveTask;
+
+            if (this.SelectedTaskOnOpen == null)
+            {
+                this.SelectedTaskColorBrush = new SolidColorBrush(Colors.White);
+            }
+            else
+            {
+                this.SelectedTaskColorBrush = new SolidColorBrush(App.Settings.GetTaskColor(this.SelectedTaskOnOpen));
             }
         }
 
@@ -113,7 +105,7 @@ namespace zCompany.TaskAide.WindowsApp
         {
             if (args.Key == global::Windows.System.VirtualKey.Enter)
             {
-                this.TaskNameChanged?.Invoke((ITask)DialogTaskListView.SelectedItem, ((TextBox)sender).Text);
+                App.Events.Raise(new TaskNameChangedEventArgs((ITask)DialogTaskListView.SelectedItem, ((TextBox)sender).Text));
                 RenameTaskFlyout.Hide();
             }
         }

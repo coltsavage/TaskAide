@@ -71,7 +71,7 @@ namespace zCompany.TaskAide.WindowsApp
             {
                 if (Window.Current.Content == null)
                 {
-                    Window.Current.Content = new ActiveSession();
+                    Window.Current.Content = new AppNavigation();
                 }
                 Window.Current.Activate();
             }

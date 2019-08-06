@@ -15,7 +15,7 @@
     <StackPanel>
         <StackPanel
             Orientation="Horizontal"
-            Margin="8,0,0,8">
+            Margin="0,0,0,8">
 
             <ComboBox
                 x:Name="TaskListView"
@@ -46,22 +46,6 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-
-            <Button
-                x:Name="ConfigureButton"
-                Width="100"
-                Margin="8,0,0,0"
-                Content="Configure"
-                Click="ConfigureButton_Click">                
-            </Button>
-            
-            <!--<Button
-                x:Name="StartStopToggle"
-                Width="75"
-                Margin="8,0,0,0"
-                Content="Start"
-                Click="StartStopToggle_Click">                
-            </Button>-->
         </StackPanel>
 
         <ScrollViewer
@@ -69,7 +53,7 @@
             HorizontalScrollBarVisibility="Visible"
             Height="200"
             Width="600">
-            
+
             <charts:IntervalChart
                 x:Name="Chart"
                 IntervalResized="Chart_IntervalResized">

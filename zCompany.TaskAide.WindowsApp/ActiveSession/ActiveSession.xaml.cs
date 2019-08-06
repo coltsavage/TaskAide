@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Windows.UI;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 using zCompany.Utilities;
 using zCompany.Windows.Charts;
 
@@ -23,13 +23,6 @@ namespace zCompany.TaskAide.WindowsApp
             this.InitializeComponent();
 
             this.intervalLookup = new Dictionary<int, int>();
-            this.TaskListViewModel = new TaskListViewModel(App.State.TaskList);
-
-            ((INotifyCollectionChanged)App.State.ActiveSession.Intervals).CollectionChanged += OnIntervalCollectionChanged;
-
-            IDateTimeZone dateTime = App.State.ActiveSession.DateTimeStart;
-            ((SystemTimeDev)App.State.Time).ActiveSessionStartTime = dateTime.UtcTicks;
-            this.Chart.ConfigureAxisLabels(new TimeLabelProvider(dateTime, 30));
         }
 
         // Properties
@@ -60,46 +53,6 @@ namespace zCompany.TaskAide.WindowsApp
                 ));
         }
 
-        private async void ConfigureButton_Click(object sender, RoutedEventArgs args)
-        {
-            Tasks config = new Tasks();
-
-            config.TaskNameChanged =
-                (task, newName) =>
-                {
-                    App.Events.Raise(new TaskNameChangedEventArgs(task, newName));
-
-                    var series = (SeriesViewModel)this.Chart.GetSeries(task.TID);
-                    if (series != null)
-                    {
-                        series.Name = newName;
-                    }
-                };
-
-            config.TaskRemoved =
-                (task) =>
-                {
-                    App.Events.Raise(new TaskRemovedEventArgs(task));
-                    this.Chart.RemoveSeries(task.TID);
-                };
-
-            config.TaskColorChanged +=
-                (object o, TaskColorChangedEventArgs e) =>
-                {
-                    var series = (SeriesViewModel)this.Chart.GetSeries(e.Task.TID);
-                    if (series != null)
-                    {
-                        series.Color = e.Color;
-                    }
-                    else
-                    {
-                        this.Chart.AddSeries(e.Task.TID, new SeriesViewModel(e.Task.Name, e.Color));
-                    }
-                };
-
-            await config.ShowAsync();
-        }
-
         protected override AutomationPeer OnCreateAutomationPeer()
         {
             return new ActiveSessionAutomationPeer(this);
@@ -115,6 +68,17 @@ namespace zCompany.TaskAide.WindowsApp
             {
                 this.RemoveIntervalFromChart((IInterval)args.OldItems[0]);
             }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs args)
+        {
+            this.TaskListViewModel = new TaskListViewModel(App.State.TaskList);
+
+            ((INotifyCollectionChanged)App.State.ActiveSession.Intervals).CollectionChanged += OnIntervalCollectionChanged;
+
+            IDateTimeZone dateTime = App.State.ActiveSession.DateTimeStart;
+            ((SystemTimeDev)App.State.Time).ActiveSessionStartTime = dateTime.UtcTicks;
+            this.Chart.ConfigureAxisLabels(new TimeLabelProvider(dateTime, 30));
         }
 
         private void TaskList_SelectionChanged(object sender, SelectionChangedEventArgs args)
