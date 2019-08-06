@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -28,6 +29,11 @@ namespace zCompany.TaskAide.WindowsApp
         {
             Type page = (args.IsSettingsSelected) ? typeof(Settings) : (Type)args.SelectedItemContainer.Tag;
             this.ContentFrame.Navigate(page);
+        }
+
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new AppNavigationAutomationPeer(this);
         }
     }
 }

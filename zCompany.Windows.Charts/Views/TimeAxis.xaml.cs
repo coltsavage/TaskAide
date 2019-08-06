@@ -21,9 +21,11 @@ namespace zCompany.Windows.Charts
             int axisLengthInPixels = Convert.ToInt32(this.Resources["Width"]);
             int labelIntervalInPixels = pixelsPerTick * labelProvider.LabelFrequencyInTicks;
 
+            int count = 0;
             for (int i = 0; i <= axisLengthInPixels; i += labelIntervalInPixels)
             {
                 MajorTick tick = new MajorTick();
+                tick.InstanceNumber = count++;
                 tick.X = i;
                 tick.Label = labelProvider.LabelText;
                 tick.SetValue(Canvas.LeftProperty, i - tick.ActualWidth);

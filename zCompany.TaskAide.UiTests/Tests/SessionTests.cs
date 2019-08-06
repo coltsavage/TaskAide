@@ -52,7 +52,7 @@ namespace zCompany.TaskAide.UiTests
             TestState<string> intervalTask = new TestState<string>(nameof(intervalTask));
 
             // Setup
-            this.app.ActiveSession.Refresh();
+            this.app.ActiveSession.Navigate();
 
             TestLog.WriteLine("---Define expected post-test state");
             {
@@ -115,7 +115,7 @@ namespace zCompany.TaskAide.UiTests
             TestStateList<IntervalData> intervals = new TestStateList<IntervalData>(nameof(intervals));
 
             // Setup
-            this.app.ActiveSession.Refresh();
+            this.app.ActiveSession.Navigate();
             this.common.MakeIntervals(config_IntervalCount, config_IntervalSpan);
 
             TestLog.WriteLine("---Define expected post-test state");
@@ -195,7 +195,7 @@ namespace zCompany.TaskAide.UiTests
             TestStateList<IntervalData> intervals = new TestStateList<IntervalData>(nameof(intervals));
 
             // Setup
-            this.app.ActiveSession.Refresh();
+            this.app.ActiveSession.Navigate();
             this.common.MakeIntervals(config_IntervalCount, config_IntervalSpan);
 
             TestLog.WriteLine("---Define expected post-test state");

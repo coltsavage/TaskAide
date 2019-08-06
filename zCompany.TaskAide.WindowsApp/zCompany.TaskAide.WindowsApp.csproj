@@ -117,8 +117,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ActiveSession\ActiveSessionNavigationViewItem.cs" />
+    <Compile Include="AutomationPeers\AppNavigationAutomationPeer.cs" />
     <Compile Include="AutomationPeers\DevTimeBarAutomationPeer.cs" />
     <Compile Include="AutomationPeers\ActiveSessionAutomationPeer.cs" />
+    <Compile Include="AutomationPeers\SettingsAutomationPeer.cs" />
     <Compile Include="Events\ActiveTaskChangedEventArgs.cs" />
     <Compile Include="Events\TaskAddedEventArgs.cs" />
     <Compile Include="Events\UserSwitchedTasksEventArgs.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Events\TaskColorChangedEventArgs.cs" />
+    <Compile Include="Settings\SettingsNavigationViewItem.cs" />
     <Compile Include="Tasks\Tasks.xaml.cs">
       <DependentUpon>Tasks.xaml</DependentUpon>
     </Compile>

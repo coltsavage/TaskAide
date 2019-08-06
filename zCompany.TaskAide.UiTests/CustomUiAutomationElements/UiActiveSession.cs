@@ -9,6 +9,7 @@ namespace zCompany.TaskAide.UiTests
     {
         // Class Fields
         public static string ClassName = typeof(ActiveSession).Name;
+        public static string NavigationEntryName = ActiveSessionNavigationViewItem.EntryName;
 
         // Fields
         private VolatileState<UiChart> chart;
@@ -37,6 +38,11 @@ namespace zCompany.TaskAide.UiTests
         public UiComboBox TaskSelector { get => this.taskSelector.Value; }
 
         // Methods
+        public UiActiveSession Navigate()
+        {
+            return this.Refresh();
+        }
+
         public new UiActiveSession Refresh()
         {
             base.Refresh();

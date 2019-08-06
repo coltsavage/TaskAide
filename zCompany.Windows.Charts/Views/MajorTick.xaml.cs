@@ -6,19 +6,15 @@ namespace zCompany.Windows.Charts
 {
     internal sealed partial class MajorTick : UserControl
     {
-        // Class Fields
-        private static int counter = 0;
 
         // Constructors
         public MajorTick()
         {
             this.InitializeComponent();
-
-            this.InstanceNumber = counter++;
         }
 
         // Properties
-        public int InstanceNumber { get; private set; }
+        public int InstanceNumber { get; set; }
 
         private string label;
         public string Label
