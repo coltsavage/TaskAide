@@ -7,7 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="ActiveSession_OnLoaded"
+    Unloaded="ActiveSession_OnUnloaded">
 
     <Page.Resources>
     </Page.Resources>
@@ -48,17 +50,11 @@
             </Button>
         </StackPanel>
 
-        <ScrollViewer
-            HorizontalScrollMode="Enabled"
-            HorizontalScrollBarVisibility="Visible"
+        <local:Session
+            x:Name="Session"
             Height="200"
-            Width="600">
-
-            <charts:IntervalChart
-                x:Name="Chart"
-                IntervalResized="Chart_IntervalResized">
-            </charts:IntervalChart>
-        </ScrollViewer>
+            Width="600">            
+        </local:Session>
 
         <local:DevTimeBar
             x:Name="TimeBar">            

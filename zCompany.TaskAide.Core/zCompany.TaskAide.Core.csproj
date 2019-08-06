@@ -138,7 +138,6 @@
     <Compile Include="Storage\TaskTable.cs" />
     <Compile Include="TaskAide.cs" />
     <Compile Include="TaskList.cs" />
-    <Compile Include="TaskListChangedArgs.cs" />
     <EmbeddedResource Include="Properties\zCompany.TaskAide.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>

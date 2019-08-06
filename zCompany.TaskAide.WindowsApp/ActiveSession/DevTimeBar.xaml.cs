@@ -37,6 +37,11 @@ namespace zCompany.TaskAide.WindowsApp
             return new DevTimeBarAutomationPeer(this);
         }
 
+        private void TimeBar_OnLoaded(object sender, RoutedEventArgs args)
+        {
+            this.PauseResumeTimeToggle.Content = (this.SystemTime.IsRunning) ? "Pause" : "Resume";
+        }
+
         private void PauseResumeTimeToggle_Click(object sender, RoutedEventArgs e)
         {
             if ((string)this.PauseResumeTimeToggle.Content == "Pause")

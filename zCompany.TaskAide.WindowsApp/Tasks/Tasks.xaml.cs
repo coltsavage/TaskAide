@@ -40,7 +40,7 @@ namespace zCompany.TaskAide.WindowsApp
 
         internal ITask SelectedTaskOnOpen { get; private set; }
 
-        internal ITaskListViewModel TaskListViewModel { get; private set; }
+        internal ITaskList TaskListViewModel { get; private set; }
 
         // Event Handlers
         private void ColorCancel_Click(object sender, RoutedEventArgs args)
@@ -83,7 +83,7 @@ namespace zCompany.TaskAide.WindowsApp
 
         protected override void OnNavigatedTo(NavigationEventArgs args)
         {
-            this.TaskListViewModel = new TaskListViewModel(App.State.TaskList);
+            this.TaskListViewModel = App.State.TaskList;
             this.SelectedTaskOnOpen = App.State.ActiveTask;
 
             if (this.SelectedTaskOnOpen == null)

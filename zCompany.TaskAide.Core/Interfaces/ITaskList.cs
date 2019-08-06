@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace zCompany.TaskAide
 {
     public interface ITaskList
     {
-        // Events
-        event EventHandler<TaskListChangedArgs> TaskListChanged;
-
         // Properties
-        List<ITask> Tasks { get; }
+        ReadOnlyObservableCollection<ITask> Tasks { get; }
     }
 }

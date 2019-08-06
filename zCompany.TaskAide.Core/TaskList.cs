@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace zCompany.TaskAide
@@ -8,21 +8,18 @@ namespace zCompany.TaskAide
     {
         // Fields
         private TaskTable table;
+        private ObservableCollection<ITask> tasks;
 
         // Constructors
         public TaskList(TaskTable table)
         {
             this.table = table;
+            this.tasks = this.GetListFromStorage();
+            this.Tasks = new ReadOnlyObservableCollection<ITask>(this.tasks);
         }
-
-        // Events
-        public event EventHandler<TaskListChangedArgs> TaskListChanged;
 
         // Properties
-        public List<ITask> Tasks
-        {
-            get => this.GetListFromStorage();
-        }
+        public ReadOnlyObservableCollection<ITask> Tasks { get; private set; }
 
         // Methods
         public virtual bool Add(Task task)
@@ -31,7 +28,7 @@ namespace zCompany.TaskAide
             if (success)
             {
                 task.PropertyChanged += this.OnTaskPropertyChanged;
-                this.TaskListChanged?.Invoke(this, new TaskListChangedArgs(TaskListChangedArgs.OperationType.Add, task));
+                this.tasks.Add(task);
             }
             return success;
         }
@@ -47,7 +44,7 @@ namespace zCompany.TaskAide
             if (success)
             {
                 taskRef.PropertyChanged -= this.OnTaskPropertyChanged;
-                this.TaskListChanged?.Invoke(this, new TaskListChangedArgs(TaskListChangedArgs.OperationType.Remove, taskRef));
+                this.tasks.Remove(taskRef);
             }
             return success;
         }
@@ -57,22 +54,20 @@ namespace zCompany.TaskAide
         {
             if (args.PropertyName == "Name")
             {
-                var task = (Task)sender;
-                this.table.UpdateName(task);
-                this.TaskListChanged?.Invoke(this, new TaskListChangedArgs(TaskListChangedArgs.OperationType.Rename, (ITask)sender));
+                this.table.UpdateName((Task)sender);
             }
         }
 
         // Helpers
-        private List<ITask> GetListFromStorage()
+        private ObservableCollection<ITask> GetListFromStorage()
         {
-            List<Task> list = this.table.GetTaskList();
-            return list.ConvertAll(new Converter<Task, ITask>(
-                (t) =>
-                {
-                    t.PropertyChanged += this.OnTaskPropertyChanged;
-                    return t;
-                }));
+            var tasks = new ObservableCollection<ITask>();
+            foreach (var task in this.table.GetTaskList())
+            {
+                task.PropertyChanged += this.OnTaskPropertyChanged;
+                tasks.Add(task);
+            }
+            return tasks;
         }
     }
 }

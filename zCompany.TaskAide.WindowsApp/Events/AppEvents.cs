@@ -11,6 +11,8 @@ namespace zCompany.TaskAide.WindowsApp
         }
 
         // Events
+        internal event EventHandler<ActiveTaskChangedEventArgs> ActiveTaskChanged;
+
         internal event EventHandler<TaskAddedEventArgs> TaskAdded;
 
         internal event EventHandler<TaskColorChangedEventArgs> TaskColorChanged;
@@ -28,6 +30,9 @@ namespace zCompany.TaskAide.WindowsApp
         {
             switch (eventArgs)
             {
+                case ActiveTaskChangedEventArgs args:
+                    this.ActiveTaskChanged?.Invoke(this, args);
+                    break;
                 case TaskAddedEventArgs args:
                     this.TaskAdded?.Invoke(this, args);
                     break;

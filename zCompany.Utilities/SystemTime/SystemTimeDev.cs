@@ -37,6 +37,8 @@ namespace zCompany.Utilities
         // Properties
         public long ActiveSessionStartTime { get; set; }
 
+        public bool IsRunning { get => this.timerActive; }
+
         public DateTimeOffset LocalDateTime
         {
             get => this.UtcNow.ToOffset(this.LocalTimeZone.BaseUtcOffset);

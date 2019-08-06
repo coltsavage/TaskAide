@@ -17,7 +17,7 @@ namespace zCompany.TaskAide
         // Destructors
         ~Database()
         {
-            this.Db.Dispose();
+            this.Db?.Dispose();
         }
 
         // Properties
