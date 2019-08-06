@@ -19,49 +19,46 @@
 
         <TextBlock
             x:Name="TimeDisplay"
-            Margin="8,0"
+            Margin="0,0"
             VerticalAlignment="Center"
             Text="{x:Bind SystemTime.UtcNow, Converter={StaticResource DateTimeConverter}, Mode=OneWay}">
         </TextBlock>
 
         <Button
             x:Name="PauseResumeTimeToggle"
-            Margin="8,0"
+            Margin="8,0,40,0"
+            Width="80"
             Content="Resume"
             Click="PauseResumeTimeToggle_Click">
         </Button>
 
         <Button
             x:Name="ReduceRateButton"
-            Margin="8,0"
+            Margin="0,0"
+            Width="32"
             Content="&lt;"
             Click="ReduceRateButton_Click">
         </Button>
 
         <TextBlock
             x:Name="TimeRateDisplay"
-            Margin="8,0"
+            Width="40"
             VerticalAlignment="Center"
+            TextAlignment="Center"
             Text="{x:Bind SystemTime.SpeedMultiplier, Mode=OneWay}">
         </TextBlock>
 
         <Button
             x:Name="RaiseRateButton"
-            Margin="8,0"
+            Margin="0,0"
+            Width="32"
             Content="&gt;"
             Click="RaiseRateButton_Click">
         </Button>
 
         <Button
-            x:Name="FastForwardButton"
-            Margin="40,0,0,0"
-            Content="+"
-            Click="FastForwardButton_Click">
-        </Button>
-
-        <Button
             x:Name="RewindButton"
-            Margin="8,0,0,0"
+            Margin="40,0,0,0"
             Width="32"
             Content="-"
             Click="RewindButton_Click">
@@ -69,12 +66,20 @@
 
         <TextBox
             x:Name="JumpAmountTextBox"
-            Margin="8,0"
+            Margin="4,0"
             VerticalAlignment="Center"
-            Width="50"
+            Width="64"
             Text="0"
-            GotFocus="JumpAmountTextBox_GotFocus">            
+            GotFocus="JumpAmountTextBox_GotFocus">
         </TextBox>
+
+        <Button
+            x:Name="FastForwardButton"
+            Margin="0,0,0,0"
+            Width="32"
+            Content="+"
+            Click="FastForwardButton_Click">
+        </Button>
 
         <Button
             x:Name="RemoveLastIntervalButton"

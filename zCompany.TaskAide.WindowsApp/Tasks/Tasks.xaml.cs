@@ -76,8 +76,12 @@ namespace zCompany.TaskAide.WindowsApp
         {
             if (DialogTaskListView.SelectedValue != null)
             {
-                Color color = App.Settings.GetTaskColor((ITask)DialogTaskListView.SelectedItem);
-                this.SelectedTaskColorBrush = new SolidColorBrush(color);
+                var task = (ITask)DialogTaskListView.SelectedItem;
+                this.TaskNameDisplay.Text = task.Name;
+                this.SelectedTaskColorBrush = new SolidColorBrush(App.Settings.GetTaskColor(task));
+                this.DeleteRequestor.IsEnabled = (task.TID != this.SelectedTaskOnOpen?.TID);
+                this.TaskHeaderPanel.Visibility = Visibility.Visible;
+                this.TaskInfoPanel.Visibility = Visibility.Visible;
             }
         }
 
@@ -89,11 +93,14 @@ namespace zCompany.TaskAide.WindowsApp
             if (this.SelectedTaskOnOpen == null)
             {
                 this.SelectedTaskColorBrush = new SolidColorBrush(Colors.White);
+                this.TaskHeaderPanel.Visibility = Visibility.Collapsed;
+                this.TaskInfoPanel.Visibility = Visibility.Collapsed;
             }
             else
             {
                 this.SelectedTaskColorBrush = new SolidColorBrush(App.Settings.GetTaskColor(this.SelectedTaskOnOpen));
             }
+            this.DeleteRequestor.IsEnabled = false;
         }
 
         private void RenameTaskFlyout_Closed(object sender, object e)
@@ -105,6 +112,7 @@ namespace zCompany.TaskAide.WindowsApp
         {
             if (args.Key == global::Windows.System.VirtualKey.Enter)
             {
+                this.TaskNameDisplay.Text = ((TextBox)sender).Text;
                 App.Events.Raise(new TaskNameChangedEventArgs((ITask)DialogTaskListView.SelectedItem, ((TextBox)sender).Text));
                 RenameTaskFlyout.Hide();
             }

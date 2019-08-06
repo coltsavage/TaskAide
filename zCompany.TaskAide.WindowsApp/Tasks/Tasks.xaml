@@ -5,116 +5,184 @@
     xmlns:local="using:zCompany.TaskAide.WindowsApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"    
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid
-        RowSpacing="8">
-        
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        
-        <ComboBox
-            Grid.Row="0"
-            x:Name="DialogTaskListView"
-            Width="200"
-            PlaceholderText="Select task"
-            ItemsSource="{x:Bind TaskListViewModel.Tasks, Mode=OneWay}"
-            DisplayMemberPath="Name"
-            SelectedItem="{x:Bind SelectedTaskOnOpen, Mode=OneTime}"
-            SelectionChanged="DialogTaskListView_SelectionChanged">
-        </ComboBox>
+    <StackPanel
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top">
 
-        <Button
-            x:Name="RenameRequestor"
-            Grid.Row="1"
-            Width="100"
-            Content="Rename">
-
-            <Button.Flyout>
-                <Flyout
-                    x:Name="RenameTaskFlyout"
-                    Placement="Right"
-                    Closed="RenameTaskFlyout_Closed">
-
-                    <TextBox
-                        x:Name="RenameTaskFlyoutTextBox"
-                        Width="200"
-                        PlaceholderText="Enter new task name"
-                        KeyDown="RenameTaskFlyoutTextBox_KeyDown">
-                    </TextBox>
-                </Flyout>
-            </Button.Flyout>
-        </Button>
-
-        <Button
-            x:Name="DeleteRequestor"
-            Grid.Row="2"
-            Width="100"
-            Content="Delete"
-            Click="DeleteRequestor_Click">
-        </Button>
-
-        <TextBlock
-            Grid.Row="3"
-            Grid.Column="0"
-            Text="Color">            
-        </TextBlock>
-
-        <Button
-            Grid.Row="3"
-            Grid.Column="1"
-            Width="24"
-            Height="24"
-            Background="{x:Bind SelectedTaskColorBrush, Mode=OneWay}">
+        <StackPanel
+            Orientation="Horizontal">
             
-            <Button.Flyout>
-                <Flyout
-                    x:Name="TaskColorFlyout"
-                    Placement="Top">
-                    
-                    <StackPanel>                        
-                        <ColorPicker
-                            x:Name="TaskColorPicker"
-                            ColorSpectrumShape="Ring"
-                            IsColorPreviewVisible="True"
-                            IsColorChannelTextInputVisible="False"
-                            IsHexInputVisible="False"
-                            Color="{x:Bind SelectedTaskColor, Mode=OneWay}">                        
-                        </ColorPicker>
+            <ComboBox
+                x:Name="DialogTaskListView"
+                Width="200"
+                PlaceholderText="Select task"
+                ItemsSource="{x:Bind TaskListViewModel.Tasks, Mode=OneWay}"
+                DisplayMemberPath="Name"
+                SelectedItem="{x:Bind SelectedTaskOnOpen, Mode=OneTime}"
+                SelectionChanged="DialogTaskListView_SelectionChanged">
+            </ComboBox>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="DeleteRequestor"
+                VerticalAlignment="Center"
+                Margin="16,0,0,0"
+                Padding="0"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                Foreground="Blue"
+                FontSize="14"
+                Content="Delete"
+                Click="DeleteRequestor_Click">
+            </Button>
+        </StackPanel>
 
-                            <Button
-                                Grid.Column="0"
-                                Margin="8,0"
-                                HorizontalAlignment="Stretch"
-                                Content="Commit"
-                                Click="ColorCommit_Click">                                
-                            </Button>
+        <RelativePanel
+            x:Name="TaskHeaderPanel"
+            Margin="0,24,0,0"
+            Width="300"
+            HorizontalAlignment="Left">
 
-                            <Button
-                                Grid.Column="1"
-                                Margin="8,0"
-                                HorizontalAlignment="Stretch"
-                                Content="Cancel"
-                                Click="ColorCancel_Click">
-                            </Button>
-                        </Grid>
-                    </StackPanel>
-                </Flyout>
-            </Button.Flyout>
-        </Button>
-    </Grid>
+            <Button
+                x:Name="ColorChangeRequestor"
+                RelativePanel.AlignLeftWithPanel="True"
+                Width="32"
+                Height="32"
+                Background="{x:Bind SelectedTaskColorBrush, Mode=OneWay}">
+
+                <Button.Flyout>
+                    <Flyout
+                        x:Name="TaskColorFlyout"
+                        Placement="Right">
+
+                        <StackPanel>
+                            <ColorPicker
+                                x:Name="TaskColorPicker"
+                                ColorSpectrumShape="Ring"
+                                IsColorPreviewVisible="True"
+                                IsColorChannelTextInputVisible="False"
+                                IsHexInputVisible="False"
+                                Color="{x:Bind SelectedTaskColor, Mode=OneWay}">
+                            </ColorPicker>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button
+                                    Grid.Column="0"
+                                    Margin="8,0"
+                                    HorizontalAlignment="Stretch"
+                                    Content="Commit"
+                                    Click="ColorCommit_Click">
+                                </Button>
+
+                                <Button
+                                    Grid.Column="1"
+                                    Margin="8,0"
+                                    HorizontalAlignment="Stretch"
+                                    Content="Cancel"
+                                    Click="ColorCancel_Click">
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+            
+            <TextBlock
+                x:Name="TaskNameDisplay"
+                RelativePanel.RightOf="ColorChangeRequestor"
+                Margin="8,0,0,0"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="{x:Bind SelectedTaskOnOpen.Name, Mode=OneTime}">                
+            </TextBlock>
+
+            <Button
+                x:Name="RenameRequestor"
+                RelativePanel.Below="TaskNameDisplay"
+                RelativePanel.AlignLeftWith="TaskNameDisplay"
+                VerticalAlignment="Bottom"
+                Margin="8,0,0,0"
+                Padding="0"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                Foreground="Blue"
+                FontSize="14"
+                Content="Rename">
+
+                <Button.Flyout>
+                    <Flyout
+                        x:Name="RenameTaskFlyout"
+                        Placement="Right"
+                        Closed="RenameTaskFlyout_Closed">
+
+                        <TextBox
+                            x:Name="RenameTaskFlyoutTextBox"
+                            Width="200"
+                            PlaceholderText="Enter new task name"
+                            KeyDown="RenameTaskFlyoutTextBox_KeyDown">
+                        </TextBox>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </RelativePanel>
+
+        <Grid
+            x:Name="TaskInfoPanel"
+            Margin="0,16,0,0"
+            RowSpacing="4">
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Project:">                
+            </TextBlock>
+
+            <TextBlock
+                x:Name="ProjectDisplay"
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="Harrison Account">
+            </TextBlock>
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Date Began:">
+            </TextBlock>
+
+            <TextBlock
+                x:Name="DateBeganDisplay"
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="3/3/2019">
+            </TextBlock>
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="Time Spent:">
+            </TextBlock>
+
+            <TextBlock
+                x:Name="TimeSpentDisplay"
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="4.5h">
+            </TextBlock>
+        </Grid>
+    </StackPanel>
 </Page>

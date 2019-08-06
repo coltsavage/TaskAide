@@ -30,9 +30,13 @@
 
             <Button
                 x:Name="AddButton"
-                Width="75"
-                Margin="8,0,0,0"
-                Content="Add">
+                VerticalAlignment="Center"
+                Margin="16,0,0,0"
+                Padding="0"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                Foreground="Blue"
+                FontSize="14"
+                Content="Add Task">
 
                 <Button.Flyout>
                     <Flyout
@@ -52,6 +56,7 @@
 
         <local:Session
             x:Name="Session"
+            Margin="0,32,0,0"
             Height="200"
             Width="600">            
         </local:Session>
