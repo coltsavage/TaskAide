@@ -1,65 +1,70 @@
 # TaskAide
-Desktop app (in active development) that enables one to track how they spend their time at work.
+Windows (v1809) desktop app (in active development) that enables one to track how they spend their time while working.
 
 As someone who is efficiency-minded, I like to be able to review my performance to determine areas of improvement. For instance:
-* When juggling multiple projects, with less time than work, am I allocating my time to projects proportionally to their importance?
-* What factor of my time is spent engaging in less productive activities (eg. emails, poorly managed meetings)?
+- When juggling multiple projects, with less time than work, am I allocating my time to projects proportionally to their importance?
+- What factor of my time is spent engaging in less productive activities (eg. emails, poorly managed meetings)?
 
 This first step in enabling this analysis is having a means to measure that performance.
 
 
 ## Project Purpose
 1. Demonstrate proficiency with programming and automated testing to mitigate concerns of prospective employers.
-2. Explore new tools and technologies through application of said tools and technologies.
+2. Explore new tools and technologies through application of those tools and technologies.
 3. Develop an app that I would utilize.
 
 Note: the focus has been on prototyping new features, not shoring up developed ones, so execution flows and tests spotlight ideal usage.
 
 
 ## Utilized
-* Development: C#, .NET/UWP, Visual Studio, Team Explorer (git)
-* Testing: xUnit, Appium (UI Automation), Test Explorer (test runner)
-* Data: SQLIte
+- Development: C#, .NET/UWP, Visual Studio, Git
+- Testing: xUnit, Appium (UI Automation), Test Explorer (test runner)
+- Data Storage: SQLIte
 
-## Showcase
+# Showcase
 
-![Image1](https://github.com/coltsavage/TaskAide/blob/master/Images/image1.png) 
+<img src="/Images/active_no-intervals_full.png">
 
-The UI is initially designed simply for functionality so as to prioritize prototyping features.
+The app is organized by domains:
+- **Active** enables tracking of the day's time allocation.
+- **Sessions** enables review of prior days' work.
+- **Tasks** enables configuring tasks and observing info, metrics, and sessions where a task was worked.
+- **Projects** similar to **Tasks**, but pertaining to projects (which are comprised of tasks).
 
-Time control (pause/resume, speedup/slowdown, jump ahead) is enabled along the bottom so as to have more control while engaging the behavior during development, and additionally necessary to enable determinism for automated testing.
+At this stage in development, only Active and Tasks have implementations.
 
-###### Tasks
+## Active
 
-Work is started once a task is selected from the drop-down.
+Enables tracking of time allocation for the day.
 
-![Image2](https://github.com/coltsavage/TaskAide/blob/master/Images/image2.png)
+<img src="/Images/active_several-intervals_owner-popup_full.png">
 
-Tasks can be added with the Add flyout or renamed/removed through the Settings dialog (which also enables changing the color of associated intervals).
+Features
+- **Interval Display**: observe intervals of time spent on given tasks.
+  - Hovering over an interval pops-up the associated task's name.
+- **Interval Adjustments**: adjust an interval's start and span by dragging the front or rear edges respectively.
+- **Task Selection**: select the task for which you will be transitioning.
+- **Task Addition**: add a new task to the collection.
+- **Time Bar**: (development aide) control the flow of time as percieved by the app.
+  - Necessary to enable determinism for automated testing and manual exploration.
+  - Controls: pause/resume, speedup/slowdown, fastforward/rewind, remove last interval
 
-<img align="left" src="https://github.com/coltsavage/TaskAide/blob/master/Images/image3.png">
+Images: Interval Resizing, Task Selection, and Task Addition
 
-![Image4](https://github.com/coltsavage/TaskAide/blob/master/Images/image4.png)
+<img src="/Images/active_interval-resize_partial.png" align="left">
+<img src="/Images/active_task-selection-and-add-composite_partial.png">
 
-Task persistence between sessions achieved via SQLite database.
+## Tasks
 
+At this stage of development, only enables changing Task state. Mock data is provided to simulate how Task info/metrics may be displayed in the future.
 
-###### Intervals
+<img src="/Images/tasks_default_full.png">
 
-Work on tasks occurs over Intervals.  Selecting a task starts a new interval associated with that task.
+Features
+- **Removal**: remove tasks that no longer need tracking.
+- **Rename**: rename tasks when necessary.
+- **Color Customization**: change the color representing the task in the Interval Display.
 
-![Image5](https://github.com/coltsavage/TaskAide/blob/master/Images/image5.png)
+Image: Result of changing a task's name and color.
 
-Changing the name or color of a task auto-propagates to the associated intervals.
-
-![Image6](https://github.com/coltsavage/TaskAide/blob/master/Images/image6.png)
-
-An intervals start time or span can be changed through dragging the front or end, respectively.
-
-![Image7](https://github.com/coltsavage/TaskAide/blob/master/Images/image7.png)
-
-
-## Future Plans
-* Session persistence (eg. work days) so as to recall for later analysis.
-* New UI for loading/manipulating/analyzing sessions in aggregate.
-* Grouping Tasks into Projects to enable project-level telemetry.
+<img src="/Images/active_change-name-and-color-result_full.png">
